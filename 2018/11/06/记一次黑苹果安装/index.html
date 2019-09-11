@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.0.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=6.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=6.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=6.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.0" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Cy个人博客">
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Cy个人博客" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Android自定义组件开发详解  	      	    阿里巴巴Java开发手册  	      	    阿里巴巴Android开发手册  	      	    深入探索Android热修复技术原理">
+<meta name="keywords" content="cyixlq,Cy的个人博客,Cy,陈洋,Android,Vue,PHP">
+<meta property="og:type" content="website">
+<meta property="og:title" content="好书">
+<meta property="og:url" content="http://cyixlq.top/book/index.html">
+<meta property="og:site_name" content="Cy个人博客">
+<meta property="og:description" content="Android自定义组件开发详解  	      	    阿里巴巴Java开发手册  	      	    阿里巴巴Android开发手册  	      	    深入探索Android热修复技术原理">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-11T10:09:38.695Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="好书">
+<meta name="twitter:description" content="Android自定义组件开发详解  	      	    阿里巴巴Java开发手册  	      	    阿里巴巴Android开发手册  	      	    深入探索Android热修复技术原理">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://cyixlq.top/book/">
+
+
+
+
+
+  <title>记一次黑苹果安装 | Cy个人博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5d2397e6874af22188ddc5811ce92d99";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Cy个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">I am Yang , and I am young !</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-book">
+          <a href="/book/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br>
+            
+            好书
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cyixlq.top/2018/11/06/记一次黑苹果安装/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cy">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/24880520?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cy个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">记一次黑苹果安装</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-06T18:59:33+08:00">2018-11-06</time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/黑苹果/" itemprop="url" rel="index">
+                    <span itemprop="name">黑苹果</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/11/06/记一次黑苹果安装/" class="leancloud_visitors" data-flag-title="记一次黑苹果安装">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>其实一直想在苹果上做开发的，可是面对苹果硬件高昂的价格，我这个小穷逼只能望而却步，便产生了自己装黑苹果的念头。其实黑苹果我好早就接触过，但是是给我笔记本装的，还是用别人配置好的，装起来就像装白果那么简单。我还没自己尝试过自己配置呢，所以才有了这次在台式机上的安装的一次新的体会。请注意，本篇文章并不是教程，更多的是一篇心得体会。另外要说一下，台式机黑苹果是比笔记本要简单的，特别是你使用了能很好兼容的硬件。<br><a id="more"></a></p>
+<h3 id="一，关于配置"><a href="#一，关于配置" class="headerlink" title="一，关于配置"></a>一，关于配置</h3><p>既然是装系统，硬件配置肯定要贴一下吧，如下图，是我台式机的硬件配置：<br><img title="电脑配置" alt="电脑配置" src="/static/images/电脑配置.jpg"><br>另外给大家推荐一下这个网站，<a href="https://www.tonymacx86.com/" target="_blank" rel="noopener">https://www.tonymacx86.com/</a>，进去这个网站，点击Buyer’s Guide选项卡，里面有很多推荐的电脑硬件配置，只要根据里面的硬件来配置的话，都很容易吃上黑苹果的。</p>
+<h3 id="二，镜像写入，制作安装U盘"><a href="#二，镜像写入，制作安装U盘" class="headerlink" title="二，镜像写入，制作安装U盘"></a>二，镜像写入，制作安装U盘</h3><p>首先我们要做的是下载镜像，很多网站都可以下载别人做好的镜像，带四叶草的。比如国内著名的黑苹果论坛——远景论坛，不过总是出现无法访问的情况。如果觉得网上搜罗的参差不齐的话，推荐到这个网站下载：<a href="https://blog.daliansky.net/" target="_blank" rel="noopener">黑果小兵的部落阁</a>，本人的镜像也是从这里下载的。本人下载的镜像是：macOS High Sierra 10.13.2(17C88) Installer with Clover 4333.dmg。镜像下载好了，就应该开始制作安装U盘了，这里我只介绍在Windows下如何制作（网上也有很多制作安装U盘的教程，我就不重复造轮子了）。个人人认为最简单的一个方法就是使用TransMac这款软件，大家可以通过百度搜索下载。试用期是15天，如果你卸载重装又可以试用15天，况且我们也只是会用到一次，没必要激活。把你的U盘插在电脑上，打开TransMac，找到左侧你U盘的图标，右键，有个Format开头的选项，点击它，之后提示完成，点击OK。继续右键你的U盘，有个Restore开头的选项，点击它。之后点击框框旁边三个点，在弹出来的文件管理器窗口选中你下载的苹果镜像之后确定。然后会弹出一个进度框，这个过程比较漫长一点，具体时间要看你U盘写入的速度。当然，你可以使用USB3.0的U盘，插在USB3.0的接口，这样就会快不少。完成会有一个弹出框提示你Complete，你点击OK就是了。然后Windows会提示你格式化此U盘，记住，千万别点确定格式化，不然就白做了。这样，一个黑苹果的安装U盘就做好了。如果你是下载的带有clover的镜像，此时你的U盘里面应该有两个分区。你可以使用diskgenius这款软件查看。我下载的镜像在Windows是看不到一个叫EFI分区的。（这一步并不是本文的重点章节，所以我也只是一笔带过，如果各位有没看懂的，可以去百度搜索相关教程补补课）</p>
+<h3 id="三，开始安装"><a href="#三，开始安装" class="headerlink" title="三，开始安装"></a>三，开始安装</h3><p>因为我下载的镜像自带了clover，所以就不用自己动手安装了。另外，我下载的镜像中还含有很多通用性配置。现在我讲把我的U盘插入前置USB接口，好的，开机，进入BIOS，选择从U盘引导启动，进入了四叶草，选择Boot Install mac OS From Install什么什么的，一个回车，纳尼？出现了一个禁止标志🚫。这个我以前是知道这个错误的，原因有很多，我就不细说。我的解决办法是把U盘插入到后置USB接口。所以我在这里建议大家，有后置USB接口就别插前置USB接口，有USB2.0接口就别插USB3.0接口。好的，这个禁止标志的问题算是解决了，但是接着又碰到一个问题，一个goIoScreenState 3什么什么的，网上一百度才知道是安装10.13这个版本要屏蔽独显，其他安装10.13会出现的一些问题可以参照右边这篇博客：<a href="https://blog.daliansky.net/macOS-10.13-installation-of-common-problems-and-solutions.html" target="_blank" rel="noopener">macOS 10.13安装中常见的问题及解决方法</a>。于是乎，我就上网百度了一下华硕的主板怎么屏蔽独显，一番搜索我知道了。进入BIOS，点击高级（我的BIOS是中文的），点击系统代理设置，里面有一个显示设置，进去之后有一个首选显卡，我一个回车，出现三个选项：自动，iGPU，PICE。又是一番搜索，知道了iGPU代表的是核显，PICE代表的是独显插槽，自动就是如果你的机子没有装独显，他将启用核显，如果装了独显，那么将屏蔽核显。我选好iGPU之后，一个F10保存。卧槽？怎么黑屏了，莫慌，这个我还是有点经验的，我把连接显示器的VGA线接到主机的另一个VGA接口，那就是核显输出的接口，嗯，正常了。继续从U盘启动，进入clover，选择option，选择configs选项卡，选择了config_HD_4600_4400_4000.plist这个配置文件，是的，我的核显是4600。选好之后，return，添加好-v启动参数后继续启动安装（我选择的这个配置文件没有配置-v启动参数，我自己手动配置）。激动人心的时刻终于要到了，额，然而还是没有进去，还是出现了goIoScreenState 3什么什么的，我明明屏蔽独显了啊，配置也是根据我的硬件信息选的。但是有一点不同，我自带的那些配置文件默认是给笔记本配置的，我的是台式机，这是有区别的，比如台式机HD4600显卡和笔记本HD4600显卡platform-id这是不一样的。那好吧，索性我就暂时不注入id，不驱动我的核显。反正我有一块独显，而且独显驱动很容易。好的，再来一次，进BIOS，进clover，进option，选好config，最后进入Graphic什么什么的，也就是显卡配置的选项卡，把Inject Intel那个选项取消勾选，return，启动安装。激动人心的时刻就要到了，要进去了吗？No，现实又狠狠给了我一记耳光，还是那个错误。苍天啊，我做错了什么，你要这样对我。阴差阳错，我居然想到在显卡设置里面设置注入英伟达显卡。好的，再来一次，进BIOS，进clover，进option，选好config，最后进入Graphic什么什么的，也就是显卡配置的选项卡，把Inject Intel那个选项取消勾选，然后把Inject Nvidia给勾上，return，启动安装。yes，终于进去安装界面了。接着就是一顿操作猛如虎，很常规的操作，坐下。抹盘，给安装盘命名为Mac OS，安装，一气呵成（注意，你要安装的磁盘EFI分区要大于200M，否则会出现抹盘失败，如果想了解的更详细还请自己补课，本篇文章只是一篇心得体会）。好的，继续再来一次，不过最后一步我们选择Boot mac OS Install From Mac OS。这里的Mac OS是我抹盘时命的名字。好的，一切还算顺利，成功安装上了。他自动重启，不过我们依然还是要进去BIOS从U盘启动。好的又是把config选好，取消勾选核显注入，勾选英伟达显卡注入，然后选择Boot mac OS From Mac OS。好的，成功进去系统，一番引导配置后进入了桌面。现在测试三卡：声卡，显卡，网卡。网卡是OK的。声卡和显卡是没有驱动上的，现在用起来图形界面比较卡顿，显存只有7M，能不卡吗？核显我就不去驱动他了，直接驱动独显，下载好对应的web驱动。大家可以到这个网址下载：<a href="https://www.tonymacx86.com/nvidia-drivers/" target="_blank" rel="noopener">https://www.tonymacx86.com/nvidia-drivers/</a>。可以通过我下载的镜像的镜像名称知道我的是10.13.2 17c88，也就是下图中这个：<br><img title="英伟达web驱动下载" alt="英伟达web驱动下载" src="/static/images/英伟达web驱动下载.png"><br>下载好之后就是一顿操作猛如虎，把这个驱动安装好了，别说你不会，傻瓜式安装。接着就要把clover启动项放到硬盘的efi里面了。我们需要用到Clover Configurator这个软件，这个软件也可以到文章开头的那个tonymacx86下载。我们打开软件，点击Mount EFI：<br><img title="利用四叶草配置软件挂载EFI" alt="利用四叶草配置软件挂载EFI" src="/static/images/利用四叶草配置软件挂载EFI.png"><br>之后点击：<br><img title="利用四叶草配置软件挂载EFI" alt="利用四叶草配置软件挂载EFI" src="/static/images/利用四叶草配置软件挂载EFI2.png"><br>然后再点击：<br><img title="利用四叶草配置软件挂载EFI" alt="利用四叶草配置软件挂载EFI" src="/static/images/利用四叶草配置软件挂载EFI3.png"><br>之后就会弹出一个文件管理器窗口，打开EFI文件夹，把U盘中EFI分区的EFI文件夹下的CLOVER文件夹拷贝到弹出的窗口的EFI文件夹中，因为把Windows给格式化了，不然这里还会有一个MicroSoft的文件夹用来引导Windows的：<br><img title="EFI分区内容" alt="EFI分区内容" src="/static/images/EFI分区内容.png"><br>之后把这个CLOVER目录下多余的config文件删除，只留下我用到的那个config_HD4600_4400_4000.plist，并且把它更名为config.plist，这样就会默认使用这个配置文件启动黑苹果了。然后我们双击硬盘中的这个更名后的config.plist，默认会使用Clover Configurator这个软件打开，然后我们就可以进行配置了。首先我们在之前的步骤取消了核显注入，开启了英伟达注入，还添加了-v启动参数，接着我们就要在软件中进行配置。如下图：<br><img title="显卡config" alt="显卡config" src="/static/images/显卡config.png"><br><img title="添加v启动参数" alt="添加v启动参数" src="/static/images/添加v启动参数.png"></p>
+<p>然后还有声卡的仿冒，使用AppleALC，对于这个我们主要配置：<br><img title="填入声卡布局id" alt="填入声卡布局id" src="/static/images/填入声卡布局id.png"><br>在输入框中我输入的是11，这个数值该怎么填写呢？主要参考<a href="https://github.com/acidanthera/AppleALC/wiki/Supported-codecs" target="_blank" rel="noopener">这里</a>。我的声卡是ALC887：<br><img title="ALC887可选声卡布局id" alt="ALC887可选声卡布局id" src="/static/images/ALC887可选声卡布局id.png"><br>从图中我们可以找到自己的声卡可以填写哪些数字，每个主板的音频线路都不同（不知道这样说对不对），所以才会有不同的数字对应不同的线路，我这里找了一个比较合适的数字就是11，前后面板的耳机插孔都有声音，但是麦克风好像没被驱动，暂时先这样吧，反正不用麦克风等我之后一个一个试一下（如果你不嫌烦的话，还有很强的动手能力的话，可以参考<a href="https://blog.daliansky.net/Use-AppleALC-sound-card-to-drive-the-correct-posture-of-AppleHDA.html" target="_blank" rel="noopener">这篇博客</a>去驱动声卡）。</p>
+<p>然后我们还要配置一下这台电脑的机型：<br><img title="生成机型步骤1" alt="生成机型步骤1" src="/static/images/生成机型步骤1.png"><br><img title="生成机型步骤2" alt="生成机型步骤2" src="/static/images/生成机型步骤2.png"><br><img title="生成机型步骤3" alt="生成机型步骤3" src="/static/images/生成机型步骤3.png"><br>最后，点击左上角的叉叉关闭，点击OK保存，好的，重启，进入BIOS，继续从U盘启动，不过我们这次移动到下面这行小图标，选择一个四叶草标志的选项进去，选择add all开头的那个选项卡，把四叶草启动项添加一下。然后关机，拔掉U盘，开机，进BIOS，把clover开头的那个启动项设置为首选项。然后继续进入高级，系统代理设置，显示设置，首选显卡调整为自动，F10保存并退出，把连接显示器的VGA线连接回独显的输出口，开机，进clover，启动Mac OS，发现又出现了goIOScreenState 3那个错误，这个错误的出现真是搞了我大半天，可能是我比较小白吧。进不去怎么办，只好继续切换成核显，进去苹果系统重新配置，最后我发现，原来是要把nv_diable这个勾选取消掉，把nvda_drv=1勾选上（据论坛说这个参数已经没有作用了，我不管那么多，为了保险起见，我还是勾上了）。<br><img title="启用英伟达驱动config" alt="启用英伟达驱动config" src="/static/images/启用英伟达驱动config.png"><br>这个nv_diable参数是禁用英伟达驱动的，难怪驱动一直没起作用，nvda_drv=1这个参数是使用英伟达驱动的。然后关机，进BIOS，把首选显卡有调整成自动，F10保存并退出，把连接显示屏的线插回独显输出的口。开机，发现已经可以成功进入系统，并且显卡也可以驱动上：<br><img title="显卡成功驱动示例" alt="显卡成功驱动示例" src="/static/images/显卡成功驱动示例.png"><br>可以通过上图看到独显已经被成功识别了！因为一切好像都正常了，我们就没必要看开机启动日志了，那么一长串代码影响美观。我们要像白苹果那样开机只显示logo，然后我们又可以打开Clover Configurator这个软件把-v启动参数取消掉：<br><img title="取消v启动参数" alt="取消v启动参数" src="/static/images/取消v启动参数.png"><br>最后听说黑苹果的CPU很可能不正常，可以通过CPU-S这个软件查看，我的图是下面这样，我也不知道我的正常不？各位大神帮我看看？<br><img title="测试CPU变频结果" alt="测试CPU变频结果" src="/static/images/测试CPU变频结果.png"></p>
+<h3 id="2019年01月06日更新"><a href="#2019年01月06日更新" class="headerlink" title="2019年01月06日更新"></a>2019年01月06日更新</h3><p>GT730 是免驱卡，也就是说不需要英伟达的WebDriver就可以驱动上</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/黑苹果/" rel="tag"># 黑苹果</a>
+          
+            <a href="/tags/安装/" rel="tag"># 安装</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/29/MVVM3/" rel="next" title="Android MVVM探索(三) - ViewModel，DataBinding，LiveData混合三打">
+                <i class="fa fa-chevron-left"></i> Android MVVM探索(三) - ViewModel，DataBinding，LiveData混合三打
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/04/FB-patcher/" rel="prev" title="【黑苹果显卡驱动】通过Device/properties 给Framebuffer打补丁一点经验">
+                【黑苹果显卡驱动】通过Device/properties 给Framebuffer打补丁一点经验 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjYwOS8xMzE0NA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars3.githubusercontent.com/u/24880520?s=460&v=4" alt="Cy">
+            
+              <p class="site-author-name" itemprop="name">Cy</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/cyixlq" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:cyixlq@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/323edc6598aa" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-bookmark"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5b5ed95b6fb9a04f93300c3a" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-bookmark"></i>掘金</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=2421597157&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.youtube.com/channel/UCmV99HA9H61r4F8nPew5fag?view_as=subscriber" target="_blank" title="YouTube">
+                      
+                        <i class="fa fa-fw fa-youtube"></i>YouTube</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一，关于配置"><span class="nav-number">2.</span> <span class="nav-text">一，关于配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二，镜像写入，制作安装U盘"><span class="nav-number">3.</span> <span class="nav-text">二，镜像写入，制作安装U盘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三，开始安装"><span class="nav-number">4.</span> <span class="nav-text">三，开始安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019年01月06日更新"><span class="nav-number">5.</span> <span class="nav-text">2019年01月06日更新</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cy Company</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("2X2PlRj4aUVXgN2df4aKvsN3-gzGzoHsz", "3WA1KotkXIQEgYfU3V9CDtx0");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+(function(){
+var src = (document.location.protocol == "http:") ? "http://js.passport.qihucdn.com/11.0.1.js?2288a8b594bfe963257e362a23ced337":"https://jspassport.ssl.qhimg.com/11.0.1.js?2288a8b594bfe963257e362a23ced337";
+document.write('<script src="' + src + '" id="sozz"><\/script>');
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":90,"height":180},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

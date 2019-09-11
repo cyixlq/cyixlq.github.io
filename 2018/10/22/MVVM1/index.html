@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.0.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=6.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=6.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=6.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.0" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Cy个人博客">
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Cy个人博客" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Android自定义组件开发详解  	      	    阿里巴巴Java开发手册  	      	    阿里巴巴Android开发手册  	      	    深入探索Android热修复技术原理">
+<meta name="keywords" content="cyixlq,Cy的个人博客,Cy,陈洋,Android,Vue,PHP">
+<meta property="og:type" content="website">
+<meta property="og:title" content="好书">
+<meta property="og:url" content="http://cyixlq.top/book/index.html">
+<meta property="og:site_name" content="Cy个人博客">
+<meta property="og:description" content="Android自定义组件开发详解  	      	    阿里巴巴Java开发手册  	      	    阿里巴巴Android开发手册  	      	    深入探索Android热修复技术原理">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-11T10:09:38.695Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="好书">
+<meta name="twitter:description" content="Android自定义组件开发详解  	      	    阿里巴巴Java开发手册  	      	    阿里巴巴Android开发手册  	      	    深入探索Android热修复技术原理">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://cyixlq.top/book/">
+
+
+
+
+
+  <title>Android MVVM探索(一) - DataBiding初解 | Cy个人博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5d2397e6874af22188ddc5811ce92d99";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Cy个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">I am Yang , and I am young !</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-book">
+          <a href="/book/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br>
+            
+            好书
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cyixlq.top/2018/10/22/MVVM1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cy">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/24880520?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cy个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Android MVVM探索(一) - DataBiding初解</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-22T17:39:00+08:00">2018-10-22</time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/10/22/MVVM1/" class="leancloud_visitors" data-flag-title="Android MVVM探索(一) - DataBiding初解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="发现我好久没写博客，其实最近一直都很想写博客的，但是不知道写点什么好。刚好碰上最近在学习Android的MVVM设计模式以及官方提供给我们的控件，所以才有了这篇文章。（其实还是因为我懒，我懒！）"><a href="#发现我好久没写博客，其实最近一直都很想写博客的，但是不知道写点什么好。刚好碰上最近在学习Android的MVVM设计模式以及官方提供给我们的控件，所以才有了这篇文章。（其实还是因为我懒，我懒！）" class="headerlink" title="发现我好久没写博客，其实最近一直都很想写博客的，但是不知道写点什么好。刚好碰上最近在学习Android的MVVM设计模式以及官方提供给我们的控件，所以才有了这篇文章。（其实还是因为我懒，我懒！）"></a>发现我好久没写博客，其实最近一直都很想写博客的，但是不知道写点什么好。刚好碰上最近在学习Android的MVVM设计模式以及官方提供给我们的控件，所以才有了这篇文章。（其实还是因为我懒，我懒！）</h5><p>今天我想给大家讲讲DataBinding，为了保证我写的不会出错，我也借鉴参考了不少文章和视频。给大家看看一篇我个人觉得还不错的。<a href="https://juejin.im/post/5a55ecb6f265da3e4d7298e9" target="_blank" rel="noopener">DataBinding最全使用说明（掘金博客）</a>还有某课网的视频，<a href="https://www.imooc.com/learn/719" target="_blank" rel="noopener">Android Data Binding实战-入门篇</a>、<a href="https://www.imooc.com/learn/720" target="_blank" rel="noopener">Android Data Binding实战-高级篇</a></p>
+<p><a href="https://github.com/cyixlq/MVVMTest" target="_blank" rel="noopener">本篇文章代码地址</a></p>
+<a id="more"></a>
+<p><a href="https://cyixlq.top/2018/10/22/MVVM1/">Android MVVM探索(一) - DataBiding初解</a></p>
+<p><a href="https://cyixlq.top/2018/10/23/MVVM2/">Android MVVM探索(二) - DataBiding常用注解</a></p>
+<p><a href="https://cyixlq.top/2018/10/29/MVVM3/">Android MVVM探索(三) - ViewModel，DataBinding，LiveData混合三打</a></p>
+<h3 id="1-什么是DataBinding？"><a href="#1-什么是DataBinding？" class="headerlink" title="1, 什么是DataBinding？"></a>1, 什么是DataBinding？</h3><p>DataBinding,2015年IO大会介绍的一个框架，字面理解即为数据绑定，是Google对MVVM在Android上的一种实现，可以直接绑定数据到xml中，并实现自动刷新（即，数据变化UI进行相应的变化）。而且还支持一些表达式。比如常见的三元运算符：</p>
+<blockquote>
+<p>1+x == 3 ? “true” : “false”</p>
+</blockquote>
+<p>它还可以支持lambda表达式：</p>
+<blockquote>
+<p>(v,fcs) -&gt; presenter.onFocusChange(user)}</p>
+</blockquote>
+<p>使用了DataBinding，可以省去一些控件绑定代码，例如：findviewById等。</p>
+<h3 id="2-开始使用DataBinding"><a href="#2-开始使用DataBinding" class="headerlink" title="2, 开始使用DataBinding"></a>2, 开始使用DataBinding</h3><p>要想使用DataBinding的话，首先要在你安卓工程中，安卓Application的module（一般为app这个module）的android配置中加上如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">android&#123;</span><br><span class="line">    // 这里省去一些常有的配置代码</span><br><span class="line">    dataBinding &#123;</span><br><span class="line">        enabled = true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>另外，如果你是使用Kotlin进行编程的话，你还要在加入了上面代码的Gradle文件中顶部加上以下代码，否则Kotlin将无法识别DataBinding资源，至于什么是DataBinding资源，我们后面会提到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &apos;kotlin-kapt&apos;</span><br></pre></td></tr></table></figure></p>
+<p>是的，你没有看错，就这么简单我们就加上了DataBiding，不需要引入任何依赖。<br>首先我们先建立一个普通类作为ViewModel：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">package top.cyixlq.test</span><br><span class="line"></span><br><span class="line">class MainViewModel &#123;</span><br><span class="line">    var name = &quot;张三&quot;</span><br><span class="line">    var age = 15</span><br><span class="line">    var isMan = true</span><br><span class="line">    fun log() &#123;</span><br><span class="line">        Log.d(&quot;MyTAG&quot;, &quot;按钮被点击了一下&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其次，我们要将我们布局文件代码进行一些改动。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;layout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    xmlns:tools=&quot;http://schemas.android.com/tools&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;data&gt;</span><br><span class="line">        &lt;variable</span><br><span class="line">            name=&quot;viewModel&quot;</span><br><span class="line">            type=&quot;top.cyixlq.test.MainViewModel&quot;/&gt;</span><br><span class="line">    &lt;/data&gt;</span><br><span class="line"></span><br><span class="line">    &lt;LinearLayout</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;match_parent&quot;</span><br><span class="line">        android:orientation=&quot;vertical&quot;</span><br><span class="line">        tools:context=&quot;.MainActivity&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:text=&quot;@&#123;viewModel.name&#125;&quot;/&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:text=&quot;@&#123;String.valueOf(viewModel.age)&#125;&quot;/&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:text=&quot;@&#123;viewModel.isMan ? @string/man : @string/woman&#125;&quot;/&gt;</span><br><span class="line"></span><br><span class="line">        &lt;Button</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:onClick=&quot;@&#123;v -&gt; viewModel.log()&#125;&quot;</span><br><span class="line">            android:text=&quot;点我&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/LinearLayout&gt;</span><br><span class="line">&lt;/layout&gt;</span><br></pre></td></tr></table></figure></p>
+<p>最后，改造我们的Activity代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">class MainActivity : AppCompatActivity() &#123;</span><br><span class="line"></span><br><span class="line">    private lateinit var binding: ActivityMainBinding</span><br><span class="line"></span><br><span class="line">    override fun onCreate(savedInstanceState: Bundle?) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState)</span><br><span class="line">        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)</span><br><span class="line">        // 第一种将数据填充到xml文件中的方法(代码在下面这行)，我们直接实例化了一个MainViewModel赋值给BR资源中一个叫viewModel的变量</span><br><span class="line">        // binding.setVariable(BR.viewModel, MainViewModel())</span><br><span class="line">        // 以下是一些说明：</span><br><span class="line">        // BR就是前文提到的DataBinding资源，像R文件一样自动生成，记录所有xml中data标签内的变量名称，有点像控件id的感觉</span><br><span class="line">        // viewModel来自布局文件中data标签内的variable标签中的name</span><br><span class="line"></span><br><span class="line">        // 第二种将数据填充到xml文件中的方法(代码在下面这行),viewModel这个变量名视你在xml中variable标签中的name而定</span><br><span class="line">        binding.viewModel = MainViewModel()</span><br><span class="line">        // 假如你的name为user,并且class名称也为User的话(name和class的名称不一定要相同)</span><br><span class="line">        // 那么代码就是binding.user = User()</span><br><span class="line"></span><br><span class="line">        // java 代码如下</span><br><span class="line">        // binding.setViewModel(new MainViewModel())</span><br><span class="line">        // binding.setUser(new User())</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    override fun onDestroy() &#123;</span><br><span class="line">        super.onDestroy()</span><br><span class="line">        // 在Activity销毁时记得解绑，以免内存泄漏</span><br><span class="line">        binding.unbind()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="3，-加入DataBinding后，xml文件的一些新的用法"><a href="#3，-加入DataBinding后，xml文件的一些新的用法" class="headerlink" title="3， 加入DataBinding后，xml文件的一些新的用法"></a>3， 加入DataBinding后，xml文件的一些新的用法</h3><ol>
+<li><p>数据的填充</p>
+<p> 可以很明显的看到，我们在布局文件的最外层不是任何布局标签，而是layout标签。之后再引入data标签，data里面是变量集合，整个xml文件中只允许有一个data标签。data标签中可以包含多个variable。name代表变量名称，type是变量类型。在activity中，我们新建了一个binding变量，并且通过binding变量把MainViewModel实例化的对象赋值到xml文件中，这样我们在xml中就可以直接填充到对应控件中。通过@{}，我们的控件就可以直接引用到viewModel中的对应的值。就像：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:text=&quot;@&#123;viewModel.name&#125;&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>import标签</p>
+<p> 就像java中的import关键字一样，可以导入类型，所以我们上面的xml文件中data部份还可以这样写：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;import type=&quot;top.cyixlq.test.MainViewModel&quot;/&gt;</span><br><span class="line">&lt;variable</span><br><span class="line">    name=&quot;viewModel&quot;</span><br><span class="line">    type=&quot;MainViewModel&quot;/&gt;</span><br></pre></td></tr></table></figure>
+<p> 我们还注意到，填充age属性的时候，我们是@{String.valueOf(viewModel.age)}。因为age是整数型，我们知道TextView的Text是不可以为整数型的，所以我们使用了String这个类中的方法进行了转换。按理说，String理应也需要使用import标签进行引入，然而我们并没有这么做。是的，和Java一样，java.lang包下的东西是自动引入的。</p>
+</li>
+<li><p>三元运算符和lambda表达式以及简单运算</p>
+<p> 我们可以看到，我们填充isMan这个属性的时候使用了三元运算符，并且使用@string/man和@string/woman作为两个可选值。看起来是不是很神奇？其实我们也可以直接这样写：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:text=&apos;@&#123;viewModel.isMan ? &quot;男&quot; : &quot;女&quot;&#125;&apos;</span><br></pre></td></tr></table></figure>
+<p> 但是值得注意的是，在Windows下，我们这样写可能会报错。是关于utf-8的一个错误，具体不太清楚。如果你是java代码，在编译的时候会告诉你这个错误。如果是kotlin下，就会显示无法打印这个错误log。所以我还是推荐引用string资源。</p>
+<p> 就像我们在xml文件中设置按钮的点击事件一样，我们可以直接引入lambda表达式，从而直接调用viewModel中的公开方法，是不是觉得简单多了？</p>
+<p> 虽然可以直接在xml文件中进行运算了，例如字符串的拼接，数字的加减，如下所示：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">android:text=&quot;@&#123;String.valueOf(viewModel.age + 1)&#125;&quot;</span><br><span class="line">android:text=&apos;&quot;性别：&quot; + viewModel.isMan ? &quot;男&quot; : &quot;女&quot;&apos;</span><br></pre></td></tr></table></figure>
+<p> 但是，我不推荐在xml文件中进行过于复杂的运算，可以在ViewModel类中处理好之后利用函数返回。如下所示：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- xml文件中 --&gt;</span><br><span class="line">android:text=&quot;@&#123;viewModel.convertSex()&#125;&quot;</span><br><span class="line"></span><br><span class="line">// MainViewModel文件中</span><br><span class="line">fun convertSex(): String &#123;</span><br><span class="line">    var result = &quot;性别：&quot;</span><br><span class="line">    val sex = if (isMan) &quot;男&quot; else &quot;女&quot;</span><br><span class="line">    return result + sex</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>include标签的一些变化</p>
+<p> 我们在开发中难免要进行布局的复用，这就会用到include标签了，但是如果我们引入的布局文件中也有variable怎么办，怎么才能从当前布局文件中传入到include导入的布局中呢？请直接看代码说明！我们以自己做一个标题栏为例。</p>
+<ol>
+<li><p>首先隐藏我们原有的标题栏，在Activity的onCreate中加入下面的代码：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">supportActionBar?.hide()</span><br><span class="line">// java代码</span><br><span class="line">// ActionBar actionBar = getSupportActionBar();</span><br><span class="line">// if (actionBar != null) actionBar.hide()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建一个layout_title_bar.xml，内容如下：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;layout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line">    &lt;data&gt;</span><br><span class="line">        &lt;variable</span><br><span class="line">            name=&quot;title&quot;</span><br><span class="line">            type=&quot;String&quot;/&gt;</span><br><span class="line">    &lt;/data&gt;</span><br><span class="line">    &lt;RelativeLayout</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;?attr/actionBarSize&quot;</span><br><span class="line">        android:background=&quot;@color/colorPrimary&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_centerInParent=&quot;true&quot;</span><br><span class="line">            android:textColor=&quot;@android:color/white&quot;</span><br><span class="line">            android:text=&quot;@&#123;title&#125;&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/RelativeLayout&gt;</span><br><span class="line">&lt;/layout&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在activity_main.xml中加入以下代码：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;variable</span><br><span class="line">    name=&quot;text&quot;</span><br><span class="line">    type=&quot;String&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 这里传过去的属性名称要与include引入的布局文件中variable的name一样 --&gt;</span><br><span class="line">&lt;!-- 同样，这里可以使用MainViewModel中的某个字符串属性作为值传过去，不声明一个新的variable --&gt;</span><br><span class="line">&lt;include layout=&quot;@layout/layout_titlt_bar&quot;</span><br><span class="line">    title=&quot;@&#123;text&#125;&quot;/&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>别忘了在Activity中给text赋值：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binding.text = &quot;测试&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="4，-关于Activity文件中binding变量的一些说明"><a href="#4，-关于Activity文件中binding变量的一些说明" class="headerlink" title="4， 关于Activity文件中binding变量的一些说明"></a>4， 关于Activity文件中binding变量的一些说明</h3><ol>
+<li>binding变量的类型是ActivityMainBinding，这个是项目build后自动生成的，根据布局文件名：activity_main.xml 来命名的类名称。也许你也发现了，它就是布局文件每个单词首字母大写，然后拼接上Binding。</li>
+<li>我们前面说过，加入DataBinding后我们可以省去一些UI相关代码，比如findviewById。那么具体是怎么操作呢。很简单，在binding变量赋值后，我们直接通过binding.控件ID就可以直接获取该控件实例。例如：binding.button.setOnClickListener(*)</li>
+<li>我们还可以将xml文件中的variable进行赋值。具体见上面Activity代码及相关注释！</li>
+</ol>
+<h3 id="5，数据的实时更新，双向绑定"><a href="#5，数据的实时更新，双向绑定" class="headerlink" title="5，数据的实时更新，双向绑定"></a>5，数据的实时更新，双向绑定</h3><p>在MainViewModel中和xml布局文件中新添加如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// MainViewModel中</span><br><span class="line">fun oneYearLater() &#123;</span><br><span class="line">    age++</span><br><span class="line">    Log.d(&quot;MyTAG&quot;, &quot;年龄：$age&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;!-- 在xml布局文件中 --&gt;</span><br><span class="line">&lt;Button</span><br><span class="line">    android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">    android:onClick=&quot;@&#123;v -&gt; viewModel.oneYearLater()&#125;&quot;</span><br><span class="line">    android:text=&quot;一年后&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
+<p>当我们点击这个按钮一年后之后会执行oneYearLater方法，里面的age属性会自增。但是，这样写好之后，我们发现age变化了，但是视图上的年龄的文字并没有刷新。我们不是说加入了DataBinding之后会自动实时刷新吗？别急，如果我们要实现实时刷新的话，我们要对MainViewModel进行小小的改造，其中有三种方法：</p>
+<ol>
+<li>就像下面那样，将对应属性改成这样： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// var age = 15</span><br><span class="line">var age = ObservableInt(15)</span><br><span class="line"></span><br><span class="line">fun oneYearLater() &#123;</span><br><span class="line">    // age++</span><br><span class="line">    val lastAge = age.get()</span><br><span class="line">    age.set(lastAge + 1)</span><br><span class="line">    Log.d(&quot;MyTAG&quot;, &quot;年龄：$age&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<pre><code>将变量age声明为可观察的Int对象。其中，类似ObservableInt的变量类型还有：
+
+- ObservableBoolean
+- ObservableByte
+- ObservableChar
+- ObservableDouble
+- ObservableLong&lt;br&gt;...此处省略了一些基本数据类型
+
+对于列表和Map，还有下面这些类型：
+
+- ObservableList&lt; T &gt;
+- ObservableArrayList&lt; T &gt;
+- ObservableArrayMap&lt;K,V&gt;
+- ObservableMap&lt;K,V&gt;
+
+那么对于String或者自定义的类这种非基本数据类型，那么怎么办？DataBinding给我们提供了：ObservableField&lt;T&gt;，我们就可以这样用：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val name = ObservableField&lt;String&gt;(&quot;张三&quot;)</span><br></pre></td></tr></table></figure>
+
+对于序列化，还有这个数据类型：
+&gt; ObservableParcelable&lt; T &gt;
+</code></pre><ol start="2">
+<li><p>让类继承BaseObservable：</p>
+<p> 我们先新建一个ObserveViewModel的类，让它继承BaseObservable：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">class ObserveViewModel : BaseObservable() &#123;</span><br><span class="line"></span><br><span class="line">    private var firstName = &quot;y&quot;</span><br><span class="line">    private var lastName = &quot;c&quot;</span><br><span class="line"></span><br><span class="line">    // 这里要加上这个标签，在set方法中BR才能找到对应属性</span><br><span class="line">    @Bindable</span><br><span class="line">    fun getFirstName(): String &#123;</span><br><span class="line">        return firstName</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bindable</span><br><span class="line">    fun getLastName():String &#123;</span><br><span class="line">        return lastName</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fun setFirstName(name:String) &#123;</span><br><span class="line">        this.firstName = name</span><br><span class="line">        notifyPropertyChanged(BR.firstName)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fun setLastName(name:String) &#123;</span><br><span class="line">        this.lastName = name</span><br><span class="line">        notifyPropertyChanged(BR.lastName)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 改姓的方法</span><br><span class="line">    fun changeLastName() &#123;</span><br><span class="line">        setLastName(&quot;薛&quot;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 在xml布局中进行引入，并且将对应属性值进行展示以及设定按钮点击事件：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 这段请放在data标签内 --&gt;</span><br><span class="line">&lt;variable</span><br><span class="line">    name=&quot;observeViewModel&quot;</span><br><span class="line">    type=&quot;top.cyixlq.test.ObserveViewModel&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;TextView</span><br><span class="line">    android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">    android:text=&quot;@&#123;observeViewModel.firstName&#125;&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;TextView</span><br><span class="line">    android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">    android:text=&quot;@&#123;observeViewModel.lastName&#125;&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;Button</span><br><span class="line">    android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">    android:text=&quot;改姓&quot;</span><br><span class="line">    android:onClick=&quot;@&#123;v -&gt; observeViewModel.changeLastName()&#125;&quot;/&gt;</span><br></pre></td></tr></table></figure>
+<p> 别忘了还要在Activity中进行赋值：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val observeViewModel = ObserveViewModel()</span><br><span class="line">binding.observeViewModel = observeViewModel</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在Activity中进行监听。</p>
+<p> 在ObserveViewModel类中新添加一个属性：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val age = ObservableInt(17)</span><br></pre></td></tr></table></figure>
+<p> 在Activity中新加入如下代码：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 给按钮设置点击监听事件</span><br><span class="line">binding.btnAddAge.setOnClickListener &#123;</span><br><span class="line">    val lastAge = observeViewModel.age.get()</span><br><span class="line">    observeViewModel.age.set(lastAge + 1)</span><br><span class="line">&#125;</span><br><span class="line">// 监听ObserveViewModel中值的变化并进行回调处理</span><br><span class="line">observeViewModel.age.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() &#123;</span><br><span class="line">    override fun onPropertyChanged(observable: Observable, i: Int) &#123;</span><br><span class="line">        binding.age.text = observeViewModel.age.get().toString()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p> 在布局文件中新增一个TextView展示新的属性，并添加一个按钮改变新的属性值：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView</span><br><span class="line">    android:id=&quot;@+id/age&quot;</span><br><span class="line">    android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">    android:text=&quot;年龄&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;Button</span><br><span class="line">    android:id=&quot;@+id/btn_add_age&quot;</span><br><span class="line">    android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">    android:text=&quot;加一岁&quot;/&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>看过上面三种方法后，是不是觉得第一种方法最简单？是的，我个人也比较推崇第一种方法，简单粗暴，但是并不意味着其他方法就用不到了，我们还是应该根据业务需求使用不同的方法灵活变通！</p>
+<p>了解Vue的同学知道，当我使用:value=的时候，就可以实现数据视图双向绑定。即输入框中的内容是什么，对应的属性值就是输入框中的内容。那么，DataBding也可以做到吗？答案是当然可以的。首先我们在MainViewModel中新添加一个text属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val text = ObservableField&lt;String&gt;(&quot;&quot;)</span><br></pre></td></tr></table></figure></p>
+<p>然后在activity_main.xml布局文件中多加一个EditText和一个TextView：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView</span><br><span class="line">    android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">    android:text=&quot;@&#123;viewModel.text&#125;&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;EditText</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">    android:text=&quot;@=&#123;viewModel.text&#125;&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这样做完之后，我们在输入框中输入什么，我们在TextView上面看到的就是什么。这样就实现了双向绑定。我们不然发现，我们实现双向绑定其实就是多加了一个“ = ”！</p>
+<h2 id="OK，这一小章节我们就先到这里了，下一章节我们就介绍一下DataBinding的一些常用注解！另外本章节中出现的问题还望大家留言指正，毕竟还是在MVVM探索道路中！"><a href="#OK，这一小章节我们就先到这里了，下一章节我们就介绍一下DataBinding的一些常用注解！另外本章节中出现的问题还望大家留言指正，毕竟还是在MVVM探索道路中！" class="headerlink" title="OK，这一小章节我们就先到这里了，下一章节我们就介绍一下DataBinding的一些常用注解！另外本章节中出现的问题还望大家留言指正，毕竟还是在MVVM探索道路中！"></a>OK，这一小章节我们就先到这里了，下一章节我们就介绍一下DataBinding的一些常用注解！另外本章节中出现的问题还望大家留言指正，毕竟还是在MVVM探索道路中！</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MVVM/" rel="tag"># MVVM</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/30/生活中，那些被我们忽视了的美好！/" rel="next" title="生活中，那些被我们忽视了的美好！">
+                <i class="fa fa-chevron-left"></i> 生活中，那些被我们忽视了的美好！
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/23/MVVM2/" rel="prev" title="Android MVVM探索(二) - DataBiding常用注解">
+                Android MVVM探索(二) - DataBiding常用注解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjYwOS8xMzE0NA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars3.githubusercontent.com/u/24880520?s=460&v=4" alt="Cy">
+            
+              <p class="site-author-name" itemprop="name">Cy</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/cyixlq" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:cyixlq@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/323edc6598aa" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-bookmark"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5b5ed95b6fb9a04f93300c3a" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-bookmark"></i>掘金</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=2421597157&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.youtube.com/channel/UCmV99HA9H61r4F8nPew5fag?view_as=subscriber" target="_blank" title="YouTube">
+                      
+                        <i class="fa fa-fw fa-youtube"></i>YouTube</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#发现我好久没写博客，其实最近一直都很想写博客的，但是不知道写点什么好。刚好碰上最近在学习Android的MVVM设计模式以及官方提供给我们的控件，所以才有了这篇文章。（其实还是因为我懒，我懒！）"><span class="nav-number">1.</span> <span class="nav-text">发现我好久没写博客，其实最近一直都很想写博客的，但是不知道写点什么好。刚好碰上最近在学习Android的MVVM设计模式以及官方提供给我们的控件，所以才有了这篇文章。（其实还是因为我懒，我懒！）</span></a></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#1-什么是DataBinding？"><span class="nav-number"></span> <span class="nav-text">1, 什么是DataBinding？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-开始使用DataBinding"><span class="nav-number"></span> <span class="nav-text">2, 开始使用DataBinding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3，-加入DataBinding后，xml文件的一些新的用法"><span class="nav-number"></span> <span class="nav-text">3， 加入DataBinding后，xml文件的一些新的用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4，-关于Activity文件中binding变量的一些说明"><span class="nav-number"></span> <span class="nav-text">4， 关于Activity文件中binding变量的一些说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5，数据的实时更新，双向绑定"><span class="nav-number"></span> <span class="nav-text">5，数据的实时更新，双向绑定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OK，这一小章节我们就先到这里了，下一章节我们就介绍一下DataBinding的一些常用注解！另外本章节中出现的问题还望大家留言指正，毕竟还是在MVVM探索道路中！"><span class="nav-number"></span> <span class="nav-text">OK，这一小章节我们就先到这里了，下一章节我们就介绍一下DataBinding的一些常用注解！另外本章节中出现的问题还望大家留言指正，毕竟还是在MVVM探索道路中！</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cy Company</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("2X2PlRj4aUVXgN2df4aKvsN3-gzGzoHsz", "3WA1KotkXIQEgYfU3V9CDtx0");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+(function(){
+var src = (document.location.protocol == "http:") ? "http://js.passport.qihucdn.com/11.0.1.js?2288a8b594bfe963257e362a23ced337":"https://jspassport.ssl.qhimg.com/11.0.1.js?2288a8b594bfe963257e362a23ced337";
+document.write('<script src="' + src + '" id="sozz"><\/script>');
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":90,"height":180},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>
