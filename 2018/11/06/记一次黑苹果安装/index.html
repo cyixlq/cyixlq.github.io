@@ -1,37 +1,587 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.cyixlq.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言其实一直想在苹果上做开发的，可是面对苹果硬件高昂的价格，我这个小穷逼只能望而却步，便产生了自己装黑苹果的念头。其实黑苹果我好早就接触过，但是是给我笔记本装的，还是用别人配置好的，装起来就像装白果那么简单。我还没自己尝试过自己配置呢，所以才有了这次在台式机上的安装的一次新的体会。请注意，本篇文章并不是教程，更多的是一篇心得体会。另外要说一下，台式机黑苹果是比笔记本要简单的，特别是你使用了能很好兼">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次黑苹果安装">
+<meta property="og:url" content="https://www.cyixlq.top/2018/11/06/%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85/index.html">
+<meta property="og:site_name" content="Cy个人博客">
+<meta property="og:description" content="前言其实一直想在苹果上做开发的，可是面对苹果硬件高昂的价格，我这个小穷逼只能望而却步，便产生了自己装黑苹果的念头。其实黑苹果我好早就接触过，但是是给我笔记本装的，还是用别人配置好的，装起来就像装白果那么简单。我还没自己尝试过自己配置呢，所以才有了这次在台式机上的安装的一次新的体会。请注意，本篇文章并不是教程，更多的是一篇心得体会。另外要说一下，台式机黑苹果是比笔记本要简单的，特别是你使用了能很好兼">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E7%94%B5%E8%84%91%E9%85%8D%E7%BD%AE.jpg">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E8%8B%B1%E4%BC%9F%E8%BE%BEweb%E9%A9%B1%E5%8A%A8%E4%B8%8B%E8%BD%BD.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E5%88%A9%E7%94%A8%E5%9B%9B%E5%8F%B6%E8%8D%89%E9%85%8D%E7%BD%AE%E8%BD%AF%E4%BB%B6%E6%8C%82%E8%BD%BDEFI.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E5%88%A9%E7%94%A8%E5%9B%9B%E5%8F%B6%E8%8D%89%E9%85%8D%E7%BD%AE%E8%BD%AF%E4%BB%B6%E6%8C%82%E8%BD%BDEFI2.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E5%88%A9%E7%94%A8%E5%9B%9B%E5%8F%B6%E8%8D%89%E9%85%8D%E7%BD%AE%E8%BD%AF%E4%BB%B6%E6%8C%82%E8%BD%BDEFI3.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/EFI%E5%88%86%E5%8C%BA%E5%86%85%E5%AE%B9.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E6%98%BE%E5%8D%A1config.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E6%B7%BB%E5%8A%A0v%E5%90%AF%E5%8A%A8%E5%8F%82%E6%95%B0.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E5%A1%AB%E5%85%A5%E5%A3%B0%E5%8D%A1%E5%B8%83%E5%B1%80id.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/ALC887%E5%8F%AF%E9%80%89%E5%A3%B0%E5%8D%A1%E5%B8%83%E5%B1%80id.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E7%94%9F%E6%88%90%E6%9C%BA%E5%9E%8B%E6%AD%A5%E9%AA%A41.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E7%94%9F%E6%88%90%E6%9C%BA%E5%9E%8B%E6%AD%A5%E9%AA%A42.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E7%94%9F%E6%88%90%E6%9C%BA%E5%9E%8B%E6%AD%A5%E9%AA%A43.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E5%90%AF%E7%94%A8%E8%8B%B1%E4%BC%9F%E8%BE%BE%E9%A9%B1%E5%8A%A8config.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E6%98%BE%E5%8D%A1%E6%88%90%E5%8A%9F%E9%A9%B1%E5%8A%A8%E7%A4%BA%E4%BE%8B.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E5%8F%96%E6%B6%88v%E5%90%AF%E5%8A%A8%E5%8F%82%E6%95%B0.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E6%B5%8B%E8%AF%95CPU%E5%8F%98%E9%A2%91%E7%BB%93%E6%9E%9C.png">
+<meta property="article:published_time" content="2018-11-06T10:59:33.000Z">
+<meta property="article:modified_time" content="2021-04-12T02:20:28.367Z">
+<meta property="article:author" content="Cy">
+<meta property="article:tag" content="黑苹果">
+<meta property="article:tag" content="安装">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.cyixlq.top/images/%E7%94%B5%E8%84%91%E9%85%8D%E7%BD%AE.jpg">
+
+<link rel="canonical" href="https://www.cyixlq.top/2018/11/06/%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>记一次黑苹果安装 | Cy个人博客</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Cy个人博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Cy个人博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">I am Yang , and I am young !</p>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-book">
+
+    <a href="/book/" rel="section"><i class="fa fa-book fa-fw"></i>好书</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/cyixlq" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.cyixlq.top/2018/11/06/%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="Cy">
+      <meta itemprop="description" content="Cy的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cy个人博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          记一次黑苹果安装
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-11-06 10:59:33" itemprop="dateCreated datePublished" datetime="2018-11-06T10:59:33Z">2018-11-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-12 02:20:28" itemprop="dateModified" datetime="2021-04-12T02:20:28Z">2021-04-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%BB%91%E8%8B%B9%E6%9E%9C/" itemprop="url" rel="index"><span itemprop="name">黑苹果</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/11/06/%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85/" class="post-meta-item leancloud_visitors" data-flag-title="记一次黑苹果安装" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>其实一直想在苹果上做开发的，可是面对苹果硬件高昂的价格，我这个小穷逼只能望而却步，便产生了自己装黑苹果的念头。其实黑苹果我好早就接触过，但是是给我笔记本装的，还是用别人配置好的，装起来就像装白果那么简单。我还没自己尝试过自己配置呢，所以才有了这次在台式机上的安装的一次新的体会。请注意，本篇文章并不是教程，更多的是一篇心得体会。另外要说一下，台式机黑苹果是比笔记本要简单的，特别是你使用了能很好兼容的硬件。</p>
+<span id="more"></span>
+<h3 id="一，关于配置"><a href="#一，关于配置" class="headerlink" title="一，关于配置"></a>一，关于配置</h3><p>既然是装系统，硬件配置肯定要贴一下吧，如下图，是我台式机的硬件配置：<br><img src="/images/%E7%94%B5%E8%84%91%E9%85%8D%E7%BD%AE.jpg" alt="电脑配置"><br>另外给大家推荐一下这个网站，<a target="_blank" rel="noopener" href="https://www.tonymacx86.com/">https://www.tonymacx86.com/</a>，进去这个网站，点击Buyer’s Guide选项卡，里面有很多推荐的电脑硬件配置，只要根据里面的硬件来配置的话，都很容易吃上黑苹果的。</p>
+<h3 id="二，镜像写入，制作安装U盘"><a href="#二，镜像写入，制作安装U盘" class="headerlink" title="二，镜像写入，制作安装U盘"></a>二，镜像写入，制作安装U盘</h3><p>首先我们要做的是下载镜像，很多网站都可以下载别人做好的镜像，带四叶草的。比如国内著名的黑苹果论坛——远景论坛，不过总是出现无法访问的情况。如果觉得网上搜罗的参差不齐的话，推荐到这个网站下载：<a target="_blank" rel="noopener" href="https://blog.daliansky.net/">黑果小兵的部落阁</a>，本人的镜像也是从这里下载的。本人下载的镜像是：macOS High Sierra 10.13.2(17C88) Installer with Clover 4333.dmg。镜像下载好了，就应该开始制作安装U盘了，这里我只介绍在Windows下如何制作（网上也有很多制作安装U盘的教程，我就不重复造轮子了）。个人人认为最简单的一个方法就是使用TransMac这款软件，大家可以通过百度搜索下载。试用期是15天，如果你卸载重装又可以试用15天，况且我们也只是会用到一次，没必要激活。把你的U盘插在电脑上，打开TransMac，找到左侧你U盘的图标，右键，有个Format开头的选项，点击它，之后提示完成，点击OK。继续右键你的U盘，有个Restore开头的选项，点击它。之后点击框框旁边三个点，在弹出来的文件管理器窗口选中你下载的苹果镜像之后确定。然后会弹出一个进度框，这个过程比较漫长一点，具体时间要看你U盘写入的速度。当然，你可以使用USB3.0的U盘，插在USB3.0的接口，这样就会快不少。完成会有一个弹出框提示你Complete，你点击OK就是了。然后Windows会提示你格式化此U盘，记住，千万别点确定格式化，不然就白做了。这样，一个黑苹果的安装U盘就做好了。如果你是下载的带有clover的镜像，此时你的U盘里面应该有两个分区。你可以使用diskgenius这款软件查看。我下载的镜像在Windows是看不到一个叫EFI分区的。（这一步并不是本文的重点章节，所以我也只是一笔带过，如果各位有没看懂的，可以去百度搜索相关教程补补课）</p>
+<h3 id="三，开始安装"><a href="#三，开始安装" class="headerlink" title="三，开始安装"></a>三，开始安装</h3><p>因为我下载的镜像自带了clover，所以就不用自己动手安装了。另外，我下载的镜像中还含有很多通用性配置。现在我讲把我的U盘插入前置USB接口，好的，开机，进入BIOS，选择从U盘引导启动，进入了四叶草，选择Boot Install mac OS From Install什么什么的，一个回车，纳尼？出现了一个禁止标志🚫。这个我以前是知道这个错误的，原因有很多，我就不细说。我的解决办法是把U盘插入到后置USB接口。所以我在这里建议大家，有后置USB接口就别插前置USB接口，有USB2.0接口就别插USB3.0接口。好的，这个禁止标志的问题算是解决了，但是接着又碰到一个问题，一个goIoScreenState 3什么什么的，网上一百度才知道是安装10.13这个版本要屏蔽独显，其他安装10.13会出现的一些问题可以参照右边这篇博客：<a target="_blank" rel="noopener" href="https://blog.daliansky.net/macOS-10.13-installation-of-common-problems-and-solutions.html">macOS 10.13安装中常见的问题及解决方法</a>。于是乎，我就上网百度了一下华硕的主板怎么屏蔽独显，一番搜索我知道了。进入BIOS，点击高级（我的BIOS是中文的），点击系统代理设置，里面有一个显示设置，进去之后有一个首选显卡，我一个回车，出现三个选项：自动，iGPU，PICE。又是一番搜索，知道了iGPU代表的是核显，PICE代表的是独显插槽，自动就是如果你的机子没有装独显，他将启用核显，如果装了独显，那么将屏蔽核显。我选好iGPU之后，一个F10保存。卧槽？怎么黑屏了，莫慌，这个我还是有点经验的，我把连接显示器的VGA线接到主机的另一个VGA接口，那就是核显输出的接口，嗯，正常了。继续从U盘启动，进入clover，选择option，选择configs选项卡，选择了config_HD_4600_4400_4000.plist这个配置文件，是的，我的核显是4600。选好之后，return，添加好-v启动参数后继续启动安装（我选择的这个配置文件没有配置-v启动参数，我自己手动配置）。激动人心的时刻终于要到了，额，然而还是没有进去，还是出现了goIoScreenState 3什么什么的，我明明屏蔽独显了啊，配置也是根据我的硬件信息选的。但是有一点不同，我自带的那些配置文件默认是给笔记本配置的，我的是台式机，这是有区别的，比如台式机HD4600显卡和笔记本HD4600显卡platform-id这是不一样的。那好吧，索性我就暂时不注入id，不驱动我的核显。反正我有一块独显，而且独显驱动很容易。好的，再来一次，进BIOS，进clover，进option，选好config，最后进入Graphic什么什么的，也就是显卡配置的选项卡，把Inject Intel那个选项取消勾选，return，启动安装。激动人心的时刻就要到了，要进去了吗？No，现实又狠狠给了我一记耳光，还是那个错误。苍天啊，我做错了什么，你要这样对我。阴差阳错，我居然想到在显卡设置里面设置注入英伟达显卡。好的，再来一次，进BIOS，进clover，进option，选好config，最后进入Graphic什么什么的，也就是显卡配置的选项卡，把Inject Intel那个选项取消勾选，然后把Inject Nvidia给勾上，return，启动安装。yes，终于进去安装界面了。接着就是一顿操作猛如虎，很常规的操作，坐下。抹盘，给安装盘命名为Mac OS，安装，一气呵成（注意，你要安装的磁盘EFI分区要大于200M，否则会出现抹盘失败，如果想了解的更详细还请自己补课，本篇文章只是一篇心得体会）。好的，继续再来一次，不过最后一步我们选择Boot mac OS Install From Mac OS。这里的Mac OS是我抹盘时命的名字。好的，一切还算顺利，成功安装上了。他自动重启，不过我们依然还是要进去BIOS从U盘启动。好的又是把config选好，取消勾选核显注入，勾选英伟达显卡注入，然后选择Boot mac OS From Mac OS。好的，成功进去系统，一番引导配置后进入了桌面。现在测试三卡：声卡，显卡，网卡。网卡是OK的。声卡和显卡是没有驱动上的，现在用起来图形界面比较卡顿，显存只有7M，能不卡吗？核显我就不去驱动他了，直接驱动独显，下载好对应的web驱动。大家可以到这个网址下载：<a target="_blank" rel="noopener" href="https://www.tonymacx86.com/nvidia-drivers/">https://www.tonymacx86.com/nvidia-drivers/</a>。可以通过我下载的镜像的镜像名称知道我的是10.13.2 17c88，也就是下图中这个：<br><img src="/images/%E8%8B%B1%E4%BC%9F%E8%BE%BEweb%E9%A9%B1%E5%8A%A8%E4%B8%8B%E8%BD%BD.png" alt="英伟达web驱动下载"><br>下载好之后就是一顿操作猛如虎，把这个驱动安装好了，别说你不会，傻瓜式安装。接着就要把clover启动项放到硬盘的efi里面了。我们需要用到Clover Configurator这个软件，这个软件也可以到文章开头的那个tonymacx86下载。我们打开软件，点击Mount EFI：<br><img src="/images/%E5%88%A9%E7%94%A8%E5%9B%9B%E5%8F%B6%E8%8D%89%E9%85%8D%E7%BD%AE%E8%BD%AF%E4%BB%B6%E6%8C%82%E8%BD%BDEFI.png" alt="利用四叶草配置软件挂载EFI"><br>之后点击：<br><img src="/images/%E5%88%A9%E7%94%A8%E5%9B%9B%E5%8F%B6%E8%8D%89%E9%85%8D%E7%BD%AE%E8%BD%AF%E4%BB%B6%E6%8C%82%E8%BD%BDEFI2.png" alt="利用四叶草配置软件挂载EFI"><br>然后再点击：<br><img src="/images/%E5%88%A9%E7%94%A8%E5%9B%9B%E5%8F%B6%E8%8D%89%E9%85%8D%E7%BD%AE%E8%BD%AF%E4%BB%B6%E6%8C%82%E8%BD%BDEFI3.png" alt="利用四叶草配置软件挂载EFI"><br>之后就会弹出一个文件管理器窗口，打开EFI文件夹，把U盘中EFI分区的EFI文件夹下的CLOVER文件夹拷贝到弹出的窗口的EFI文件夹中，因为把Windows给格式化了，不然这里还会有一个MicroSoft的文件夹用来引导Windows的：<br><img src="/images/EFI%E5%88%86%E5%8C%BA%E5%86%85%E5%AE%B9.png" alt="EFI分区内容"><br>之后把这个CLOVER目录下多余的config文件删除，只留下我用到的那个config_HD4600_4400_4000.plist，并且把它更名为config.plist，这样就会默认使用这个配置文件启动黑苹果了。然后我们双击硬盘中的这个更名后的config.plist，默认会使用Clover Configurator这个软件打开，然后我们就可以进行配置了。首先我们在之前的步骤取消了核显注入，开启了英伟达注入，还添加了-v启动参数，接着我们就要在软件中进行配置。如下图：<br><img src="/images/%E6%98%BE%E5%8D%A1config.png" alt="显卡config"><br><img src="/images/%E6%B7%BB%E5%8A%A0v%E5%90%AF%E5%8A%A8%E5%8F%82%E6%95%B0.png" alt="添加v启动参数"></p>
+<p>然后还有声卡的仿冒，使用AppleALC，对于这个我们主要配置：<br><img src="/images/%E5%A1%AB%E5%85%A5%E5%A3%B0%E5%8D%A1%E5%B8%83%E5%B1%80id.png" alt="填入声卡布局id"><br>在输入框中我输入的是11，这个数值该怎么填写呢？主要参考<a target="_blank" rel="noopener" href="https://github.com/acidanthera/AppleALC/wiki/Supported-codecs">这里</a>。我的声卡是ALC887：<br><img src="/images/ALC887%E5%8F%AF%E9%80%89%E5%A3%B0%E5%8D%A1%E5%B8%83%E5%B1%80id.png" alt="ALC887可选声卡布局id"><br>从图中我们可以找到自己的声卡可以填写哪些数字，每个主板的音频线路都不同（不知道这样说对不对），所以才会有不同的数字对应不同的线路，我这里找了一个比较合适的数字就是11，前后面板的耳机插孔都有声音，但是麦克风好像没被驱动，暂时先这样吧，反正不用麦克风等我之后一个一个试一下（如果你不嫌烦的话，还有很强的动手能力的话，可以参考<a target="_blank" rel="noopener" href="https://blog.daliansky.net/Use-AppleALC-sound-card-to-drive-the-correct-posture-of-AppleHDA.html">这篇博客</a>去驱动声卡）。</p>
+<p>然后我们还要配置一下这台电脑的机型：<br><img src="/images/%E7%94%9F%E6%88%90%E6%9C%BA%E5%9E%8B%E6%AD%A5%E9%AA%A41.png" alt="生成机型步骤1"><br><img src="/images/%E7%94%9F%E6%88%90%E6%9C%BA%E5%9E%8B%E6%AD%A5%E9%AA%A42.png" alt="生成机型步骤2"><br><img src="/images/%E7%94%9F%E6%88%90%E6%9C%BA%E5%9E%8B%E6%AD%A5%E9%AA%A43.png" alt="生成机型步骤3"><br>最后，点击左上角的叉叉关闭，点击OK保存，好的，重启，进入BIOS，继续从U盘启动，不过我们这次移动到下面这行小图标，选择一个四叶草标志的选项进去，选择add all开头的那个选项卡，把四叶草启动项添加一下。然后关机，拔掉U盘，开机，进BIOS，把clover开头的那个启动项设置为首选项。然后继续进入高级，系统代理设置，显示设置，首选显卡调整为自动，F10保存并退出，把连接显示器的VGA线连接回独显的输出口，开机，进clover，启动Mac OS，发现又出现了goIOScreenState 3那个错误，这个错误的出现真是搞了我大半天，可能是我比较小白吧。进不去怎么办，只好继续切换成核显，进去苹果系统重新配置，最后我发现，原来是要把nv_diable这个勾选取消掉，把nvda_drv=1勾选上（据论坛说这个参数已经没有作用了，我不管那么多，为了保险起见，我还是勾上了）。<br><img src="/images/%E5%90%AF%E7%94%A8%E8%8B%B1%E4%BC%9F%E8%BE%BE%E9%A9%B1%E5%8A%A8config.png" alt="启用英伟达驱动config"><br>这个nv_diable参数是禁用英伟达驱动的，难怪驱动一直没起作用，nvda_drv=1这个参数是使用英伟达驱动的。然后关机，进BIOS，把首选显卡有调整成自动，F10保存并退出，把连接显示屏的线插回独显输出的口。开机，发现已经可以成功进入系统，并且显卡也可以驱动上：<br><img src="/images/%E6%98%BE%E5%8D%A1%E6%88%90%E5%8A%9F%E9%A9%B1%E5%8A%A8%E7%A4%BA%E4%BE%8B.png" alt="显卡成功驱动示例"><br>可以通过上图看到独显已经被成功识别了！因为一切好像都正常了，我们就没必要看开机启动日志了，那么一长串代码影响美观。我们要像白苹果那样开机只显示logo，然后我们又可以打开Clover Configurator这个软件把-v启动参数取消掉：<br><img src="/images/%E5%8F%96%E6%B6%88v%E5%90%AF%E5%8A%A8%E5%8F%82%E6%95%B0.png" alt="取消v启动参数"><br>最后听说黑苹果的CPU很可能不正常，可以通过CPU-S这个软件查看，我的图是下面这样，我也不知道我的正常不？各位大神帮我看看？<br><img src="/images/%E6%B5%8B%E8%AF%95CPU%E5%8F%98%E9%A2%91%E7%BB%93%E6%9E%9C.png" alt="测试CPU变频结果"></p>
+<h3 id="2019年01月06日更新"><a href="#2019年01月06日更新" class="headerlink" title="2019年01月06日更新"></a>2019年01月06日更新</h3><p>GT730 是免驱卡，也就是说不需要英伟达的WebDriver就可以驱动上</p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%BB%91%E8%8B%B9%E6%9E%9C/" rel="tag"># 黑苹果</a>
+              <a href="/tags/%E5%AE%89%E8%A3%85/" rel="tag"># 安装</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/10/29/MVVM3/" rel="prev" title="Android MVVM探索(三) - ViewModel，DataBinding，LiveData混合三打">
+      <i class="fa fa-chevron-left"></i> Android MVVM探索(三) - ViewModel，DataBinding，LiveData混合三打
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/12/04/FB-patcher/" rel="next" title="【黑苹果显卡驱动】通过Device/properties 给Framebuffer打补丁一点经验">
+      【黑苹果显卡驱动】通过Device/properties 给Framebuffer打补丁一点经验 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjYwOS8xMzE0NA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%EF%BC%8C%E5%85%B3%E4%BA%8E%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">一，关于配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%EF%BC%8C%E9%95%9C%E5%83%8F%E5%86%99%E5%85%A5%EF%BC%8C%E5%88%B6%E4%BD%9C%E5%AE%89%E8%A3%85U%E7%9B%98"><span class="nav-number">3.</span> <span class="nav-text">二，镜像写入，制作安装U盘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%EF%BC%8C%E5%BC%80%E5%A7%8B%E5%AE%89%E8%A3%85"><span class="nav-number">4.</span> <span class="nav-text">三，开始安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019%E5%B9%B401%E6%9C%8806%E6%97%A5%E6%9B%B4%E6%96%B0"><span class="nav-number">5.</span> <span class="nav-text">2019年01月06日更新</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Cy"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">Cy</p>
+  <div class="site-description" itemprop="description">Cy的个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cyixlq" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cyixlq" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:cyixlq@gmail.com" title="E-Mail → mailto:cyixlq@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/323edc6598aa" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;323edc6598aa" rel="noopener" target="_blank"><i class="fa fa-bookmark fa-fw"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://juejin.im/user/5b5ed95b6fb9a04f93300c3a" title="掘金 → https:&#x2F;&#x2F;juejin.im&#x2F;user&#x2F;5b5ed95b6fb9a04f93300c3a" rel="noopener" target="_blank"><i class="fa fa-bookmark fa-fw"></i>掘金</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=2421597157&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;2421597157&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fab fa-qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCmV99HA9H61r4F8nPew5fag?view_as=subscriber" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCmV99HA9H61r4F8nPew5fag?view_as&#x3D;subscriber" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cy Company</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":200,"height":450},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

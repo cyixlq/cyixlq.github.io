@@ -1,37 +1,623 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.cyixlq.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本来想直接一章节大致讲讲完DataBinding的，但是要知道，DataBinding知识点还是蛮多的（我也还没全部了解完）。加上我又喜欢写的细一点，所以一篇写下来洋洋洒洒一长篇，所以还是分开来写吧！今天（好吧，其实和上一篇是同一天）我们要说的DataBinding常用的一些注解！本篇文章代码地址">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android MVVM探索(二) - DataBiding常用注解">
+<meta property="og:url" content="https://www.cyixlq.top/2018/10/23/MVVM2/index.html">
+<meta property="og:site_name" content="Cy个人博客">
+<meta property="og:description" content="本来想直接一章节大致讲讲完DataBinding的，但是要知道，DataBinding知识点还是蛮多的（我也还没全部了解完）。加上我又喜欢写的细一点，所以一篇写下来洋洋洒洒一长篇，所以还是分开来写吧！今天（好吧，其实和上一篇是同一天）我们要说的DataBinding常用的一些注解！本篇文章代码地址">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8654767-386d9ceaa25b82d8.gif?imageMogr2/auto-orient/strip">
+<meta property="article:published_time" content="2018-10-22T16:32:38.000Z">
+<meta property="article:modified_time" content="2021-01-15T08:30:39.728Z">
+<meta property="article:author" content="Cy">
+<meta property="article:tag" content="MVVM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/8654767-386d9ceaa25b82d8.gif?imageMogr2/auto-orient/strip">
+
+<link rel="canonical" href="https://www.cyixlq.top/2018/10/23/MVVM2/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>Android MVVM探索(二) - DataBiding常用注解 | Cy个人博客</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Cy个人博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Cy个人博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">I am Yang , and I am young !</p>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-book">
+
+    <a href="/book/" rel="section"><i class="fa fa-book fa-fw"></i>好书</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/cyixlq" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.cyixlq.top/2018/10/23/MVVM2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="Cy">
+      <meta itemprop="description" content="Cy的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cy个人博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android MVVM探索(二) - DataBiding常用注解
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-10-22 16:32:38" itemprop="dateCreated datePublished" datetime="2018-10-22T16:32:38Z">2018-10-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-15 08:30:39" itemprop="dateModified" datetime="2021-01-15T08:30:39Z">2021-01-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/10/23/MVVM2/" class="post-meta-item leancloud_visitors" data-flag-title="Android MVVM探索(二) - DataBiding常用注解" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="本来想直接一章节大致讲讲完DataBinding的，但是要知道，DataBinding知识点还是蛮多的（我也还没全部了解完）。加上我又喜欢写的细一点，所以一篇写下来洋洋洒洒一长篇，所以还是分开来写吧！今天（好吧，其实和上一篇是同一天）我们要说的DataBinding常用的一些注解！"><a href="#本来想直接一章节大致讲讲完DataBinding的，但是要知道，DataBinding知识点还是蛮多的（我也还没全部了解完）。加上我又喜欢写的细一点，所以一篇写下来洋洋洒洒一长篇，所以还是分开来写吧！今天（好吧，其实和上一篇是同一天）我们要说的DataBinding常用的一些注解！" class="headerlink" title="本来想直接一章节大致讲讲完DataBinding的，但是要知道，DataBinding知识点还是蛮多的（我也还没全部了解完）。加上我又喜欢写的细一点，所以一篇写下来洋洋洒洒一长篇，所以还是分开来写吧！今天（好吧，其实和上一篇是同一天）我们要说的DataBinding常用的一些注解！"></a>本来想直接一章节大致讲讲完DataBinding的，但是要知道，DataBinding知识点还是蛮多的（我也还没全部了解完）。加上我又喜欢写的细一点，所以一篇写下来洋洋洒洒一长篇，所以还是分开来写吧！今天（好吧，其实和上一篇是同一天）我们要说的DataBinding常用的一些注解！</h3><p><a target="_blank" rel="noopener" href="https://github.com/cyixlq/MVVMTest">本篇文章代码地址</a></p>
+<span id="more"></span>
+<h2 id="Android-MVVM探索系列"><a href="#Android-MVVM探索系列" class="headerlink" title="Android MVVM探索系列"></a>Android MVVM探索系列</h2><p><a target="_blank" rel="noopener" href="https://cyixlq.top/2018/10/22/MVVM1/">Android MVVM探索(一) - DataBiding初解</a></p>
+<p><a target="_blank" rel="noopener" href="https://cyixlq.top/2018/10/23/MVVM2/">Android MVVM探索(二) - DataBiding常用注解</a></p>
+<p><a target="_blank" rel="noopener" href="https://cyixlq.top/2018/10/29/MVVM3/">Android MVVM探索(三) - ViewModel，DataBinding，LiveData混合三打</a></p>
+<h3 id="6，-一些常用注解说明"><a href="#6，-一些常用注解说明" class="headerlink" title="6， 一些常用注解说明"></a>6， 一些常用注解说明</h3><ul>
+<li><p>@BidingAdapter</p>
+<p>  在xml文件中，总是有些控件的属性不够我们用，比如我们有一张图片的网络地址，我们想直接在xml中将地址绑定到ImageView，让它显示这张图片，很明显的ImageView自带的属性明显不能完成我们的要求。那怎么办呢？我们需要拓展属性！<br>  首先我们新建一个名为ViewBindingAdapters的Kotlin文件，（如果是Java请新建一个普通类，类名随意），内容如下：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">package top.cyixlq.test</span><br><span class="line"></span><br><span class="line">import android.databinding.BindingAdapter</span><br><span class="line">import android.widget.ImageView</span><br><span class="line">import com.bumptech.glide.Glide</span><br><span class="line"></span><br><span class="line">@BindingAdapter(&quot;imgUrl&quot;)</span><br><span class="line">fun setImgUrl(view: ImageView, url: String) &#123;</span><br><span class="line">    Glide.with(view).load(url).into(view)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Java如下：</span><br><span class="line">public class ViewBindingAdapters &#123;</span><br><span class="line">    @BindingAdapter(&quot;imgUrl&quot;)</span><br><span class="line">    public static void setImgUrl(ImageView view, String url) &#123;</span><br><span class="line">        Glide.with(view).load(url).into(view)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  可以看到，我们使用了Glide，所以需要在app的build.gradle文件中dependencies下加入(我写这篇文章时，最新的Glide版本为4.8.0):</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">implementation &#39;com.github.bumptech.glide:glide:4.8.0&#39;</span><br><span class="line">annotationProcessor &#39;com.github.bumptech.glide:compiler:4.8.0&#39;</span><br></pre></td></tr></table></figure>
+
+<p>  我们需要在网上找了一张图片的链接，并且把它加入到MainViewModel的属性中:</p>
+<blockquote>
+<p>val imgUrl = “这里是图片地址，地址太长，我就不贴在这里”</p>
+</blockquote>
+<p>  我们在activity_main.xml文件中加入一个ImageView，并使用我们拓展的属性：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;ImageView</span><br><span class="line">    android:layout_width&#x3D;&quot;80dp&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;80dp&quot;</span><br><span class="line">    imgUrl&#x3D;&quot;@&#123;viewModel.imgUrl&#125;&quot;&#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>  最后别忘了在manifest中添加网络权限：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name&#x3D;&quot;android.permission.INTERNET&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>  那么，这个注解是如何判断是给哪个控件添加的拓展属性呢？请看本小节开头我们创建的那个Kotlin文件的内容，我们用@BindingAdapter注解修饰了一个setImgUrl的方法，注解中包含一个字符串“imgUrl”。方法的第一个形参的类型是ImageView，所以，这个注解是通过第一个形参的类型来判断拓展的是哪个控件的属性，第一个形参也是设置了该拓展属性的控件的实例。第二个形参传进来的是一个String类型的值，也就是在xml布局文件中传进来的viewModel.imgUrl，然后我们在方法体中进行一下处理即可实现自动加载网络图片了！</p>
+<p>  @BindingAdapter注解需要传入的第一个参数是字符串数组。如果你只想拓展一个属性，那么只传一个字符串就行。如果你想拓展多个属性，那么你就需要传入一个字符串数组，一个字符串就代表一个拓展属性。当数组长度大于一时，我们就需要设置它的第二个参数，requireAll（中文意思：全部必须）。这个参数为布尔型。当为true时(默认就是为true)，就像他的中文意思一样，全部需要，代表你传入的第一个参数，字符串数组的拓展属性必须在一个控件上全部要设置，否则的话你想设置哪个拓展属性就设置哪个拓展属性！示例代码如下：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 当为false时</span><br><span class="line">@BindingAdapter(value &#x3D; [&quot;imgUrl&quot;, &quot;bgRes&quot;], requireAll &#x3D; false)</span><br><span class="line">fun setImgUrl(view: ImageView, url: String, res: Int) &#123;</span><br><span class="line">    Glide.with(view).load(url).into(view)</span><br><span class="line">    view.setBackgroundResource(res)</span><br><span class="line">&#125;</span><br><span class="line">&lt;!-- xml文件代码 --&gt;</span><br><span class="line">&lt;ImageView</span><br><span class="line">    android:layout_width&#x3D;&quot;80dp&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;80dp&quot;</span><br><span class="line">    imgUrl&#x3D;&quot;@&#123;viewModel.imgUrl&#125;&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 当为true时</span><br><span class="line">@BindingAdapter(value &#x3D; [&quot;imgUrl&quot;, &quot;bgRes&quot;], requireAll &#x3D; true)</span><br><span class="line">fun setImgUrl(view: ImageView, url: String, res: Int) &#123;</span><br><span class="line">    Glide.with(view).load(url).into(view)</span><br><span class="line">    view.setBackgroundResource(res)</span><br><span class="line">&#125;</span><br><span class="line">&lt;!-- xml文件代码 --&gt;</span><br><span class="line">&lt;!-- 这段请放在data标签中 --&gt;</span><br><span class="line">&lt;import type&#x3D;&quot;top.cyixlq.test.R&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">&lt;ImageView</span><br><span class="line">    android:layout_width&#x3D;&quot;80dp&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;80dp&quot;</span><br><span class="line">    imgUrl&#x3D;&quot;@&#123;viewModel.imgUrl&#125;&quot;</span><br><span class="line">    bgRes&#x3D;&quot;@&#123;R.mipmap.ic_launcher&#125;&quot;&#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>  如果第二个参数设置为true但是在xml中有没有将全部的拓展属性设置好的话在编译的时候就会报错：</p>
+<blockquote>
+<p>Found data binding errors.</p>
+</blockquote>
+<p>  补充一下，传入的属性值前面可以加上命名空间，就像下面那样（命名空间有一定规范,最好是英文单词）：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@BindingAdapter(value &#x3D; [&quot;app:imgUrl&quot;, &quot;app:bgRes&quot;], requireAll &#x3D; true)</span><br><span class="line">fun setImgUrl(view: ImageView, url: String, res: Int) &#123;</span><br><span class="line">    Glide.with(view).load(url).into(view)</span><br><span class="line">    view.setBackgroundResource(res)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  如果你加入了命名空间，相应的你也需要在xml布局文件中引入命名空间并且加上去，就像下面那样:</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 引入app命名空间 --&gt;</span><br><span class="line">&lt;layout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;</span><br><span class="line">    xmlns:tools&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;tools&quot;</span><br><span class="line">    xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 控件相应属性加上命名空间 --&gt;</span><br><span class="line">&lt;ImageView</span><br><span class="line">    android:layout_width&#x3D;&quot;80dp&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;80dp&quot;</span><br><span class="line">    imgUrl&#x3D;&quot;@&#123;viewModel.imgUrl&#125;&quot;</span><br><span class="line">    app:bgRes&#x3D;&quot;@&#123;R.mipmap.ic_launcher&#125;&quot;&#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>  最后看看这个注解的源代码，更方便理解：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Target(ElementType.METHOD)</span><br><span class="line">public @interface BindingAdapter &#123;</span><br><span class="line">    String[] value();</span><br><span class="line">    boolean requireAll() default true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>@BindingConversion</p>
+<p>  这个注解的作用就是将不符合某个控件属性的值的类型转换成符合的类型。举个例子：TextView的text属性是需要String类型的，假如我们传入时间戳(Long类型)很明显是不行的，但是我就是不想自己每个都自己手动转换一下，怎么办？那么这个注解就派上用场了。我们直接上代码，就以TextView这个例子来说明：</p>
+<p>  1.我们新建一个Kotlin文件，文件名为ViewBindingConversions，文件内容如下：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@SuppressLint(&quot;SimpleDateFormat&quot;)</span><br><span class="line">@BindingConversion</span><br><span class="line">fun convertIntToString(value: Long): String &#123;</span><br><span class="line">    val formatter &#x3D; SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;)</span><br><span class="line">    return formatter.format(value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>把我们之前布局文件中新加入一个TextView，就像下面的代码，之后编译运行，我们发现可以正常运行。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView</span><br><span class="line">    android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    android:text&#x3D;&quot;@&#123;System.currentTimeMillis()&#125;&quot;&#x2F;&gt;</span><br></pre></td></tr></table></figure>
+值得注意的是，这个注解，声明一个，所有控件都会自动转换。也就是说我们上面的那个方法，凡是某个属性需要String类型的，如果你传入了Long，它就会通过方法体中的代码进行转换，最后填充的属性值就是返回的结果。加入Button的text你也传入了Long，那么也会进行转换，并不只限于TextView。用这个注解修饰的方法只有一个形参，它的类型代表是xml中传进来的值的类型，最后函数必须要一个返回值，返回匹配控件支持的值得类型。所以感觉就是这个注解用起来不会太灵活！</li>
+</ol>
+</li>
+<li><p>@InverseMethod</p>
+<p>  在开发中，我们经常遇到某个字符串，或者某个数字代表某种状态。比如0代表女孩子，1代表男孩子。但是用户选好男还是女之后，我们回传到后台的数据应该是0或1，但是我们不想手动转换怎么办，那就用这个注解。这个注解的作用和上面那个注解@BindingConversion有点类似，但是不同的是，这个可以具体作用到某个控件实例上，还有双向绑定的作用。如果不知道双向绑定是什么意思，请参照上一小章节。首先还是新建一个Kotlin文件，文件名为：ViewInverseMethods，Java的话还是和上面一样新建一个类，类名随意。文件内容如下：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 这个注解参数为反转的方法名，意味着一个这个注解需要两个方法才能完成</span><br><span class="line">@InverseMethod(&quot;sexToNum&quot;)</span><br><span class="line">fun numToSex(num: Int): String &#123;</span><br><span class="line">    return when (num) &#123;</span><br><span class="line">        0 -&gt; &quot;女&quot;</span><br><span class="line">        1 -&gt; &quot;男&quot;</span><br><span class="line">        else -&gt; &quot;未知性别&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun sexToNum(sex: String): Int &#123;</span><br><span class="line">    return when(sex) &#123;</span><br><span class="line">        &quot;女&quot; -&gt; 0</span><br><span class="line">        &quot;男&quot; -&gt; 1</span><br><span class="line">        else -&gt; 2</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  是的，因为这个注解设计到双向绑定，有转换过去的方法肯定,肯定就有转换回来的方法。我们在MainViewModel中添加属性：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 因为涉及双向绑定，这里必须是可观察的数据类型</span><br><span class="line">val num &#x3D; ObservableInt(1)</span><br></pre></td></tr></table></figure>
+<p>  在布局文件中添加一个TextView和一个EditText，TextView用来观察num这个值的变化，EditText用来展示转换好之后的数据：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 这里别忘了导入，导入了下面的EditText才能用这个类 --&gt;</span><br><span class="line">&lt;import type&#x3D;&quot;top.cyixlq.test.ViewInverseMethodsKt&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">&lt;TextView</span><br><span class="line">    android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    android:text&#x3D;&quot;@&#123;String.valueOf(viewModel.num)&#125;&quot;&#x2F;&gt;</span><br><span class="line">&lt;EditText</span><br><span class="line">    android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    android:text&#x3D;&quot;@&#x3D;&#123;ViewInverseMethodsKt.numToSex(viewModel.num)&#125;&quot;&#x2F;&gt;</span><br></pre></td></tr></table></figure>
+<p>  这时候编译运行，EditText直接显示了男，如果我们删除男，EditText立马显示了未知性别。因为空字符串会对应到sexToNum中的else，所以num的值瞬间变成2，而2又对应numToSex中的else，所以EditText就会显示未知性别。当我们把未知性别几个字全部删除，输入1，或者2也好，num都是2，因为字符串-“1”,字符串-“2”都是对应sexToNum方法中的else。但是如果我们在输入框中输入男，num就变成1了，输入女num就变成0了。其中的过程我就不继续详细解释了。下面贴出一张动态图：<br>  <img src="https://upload-images.jianshu.io/upload_images/8654767-386d9ceaa25b82d8.gif?imageMogr2/auto-orient/strip" alt="InverseMethod注解详解动图.gif"></p>
+</li>
+</ul>
+<h3 id="暂时我就用到这么些注解，我认为比较常用的。其他注解我在下面贴上链接，大家可以去看看。另外本章节中出现的问题还望大家留言指正，毕竟还是在MVVM探索道路中！"><a href="#暂时我就用到这么些注解，我认为比较常用的。其他注解我在下面贴上链接，大家可以去看看。另外本章节中出现的问题还望大家留言指正，毕竟还是在MVVM探索道路中！" class="headerlink" title="暂时我就用到这么些注解，我认为比较常用的。其他注解我在下面贴上链接，大家可以去看看。另外本章节中出现的问题还望大家留言指正，毕竟还是在MVVM探索道路中！"></a>暂时我就用到这么些注解，我认为比较常用的。其他注解我在下面贴上链接，大家可以去看看。另外本章节中出现的问题还望大家留言指正，毕竟还是在MVVM探索道路中！</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qiang_xi/article/details/75379321">DataBinding使用教程（三）：各个注解详解</a></p>
+<p><a target="_blank" rel="noopener" href="https://upload-images.jianshu.io/upload_images/8654767-386d9ceaa25b82d8.gif">DataBinding最全使用说明</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MVVM/" rel="tag"># MVVM</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/10/22/MVVM1/" rel="prev" title="Android MVVM探索(一) - DataBiding初解">
+      <i class="fa fa-chevron-left"></i> Android MVVM探索(一) - DataBiding初解
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/10/29/MVVM3/" rel="next" title="Android MVVM探索(三) - ViewModel，DataBinding，LiveData混合三打">
+      Android MVVM探索(三) - ViewModel，DataBinding，LiveData混合三打 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjYwOS8xMzE0NA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E6%9D%A5%E6%83%B3%E7%9B%B4%E6%8E%A5%E4%B8%80%E7%AB%A0%E8%8A%82%E5%A4%A7%E8%87%B4%E8%AE%B2%E8%AE%B2%E5%AE%8CDataBinding%E7%9A%84%EF%BC%8C%E4%BD%86%E6%98%AF%E8%A6%81%E7%9F%A5%E9%81%93%EF%BC%8CDataBinding%E7%9F%A5%E8%AF%86%E7%82%B9%E8%BF%98%E6%98%AF%E8%9B%AE%E5%A4%9A%E7%9A%84%EF%BC%88%E6%88%91%E4%B9%9F%E8%BF%98%E6%B2%A1%E5%85%A8%E9%83%A8%E4%BA%86%E8%A7%A3%E5%AE%8C%EF%BC%89%E3%80%82%E5%8A%A0%E4%B8%8A%E6%88%91%E5%8F%88%E5%96%9C%E6%AC%A2%E5%86%99%E7%9A%84%E7%BB%86%E4%B8%80%E7%82%B9%EF%BC%8C%E6%89%80%E4%BB%A5%E4%B8%80%E7%AF%87%E5%86%99%E4%B8%8B%E6%9D%A5%E6%B4%8B%E6%B4%8B%E6%B4%92%E6%B4%92%E4%B8%80%E9%95%BF%E7%AF%87%EF%BC%8C%E6%89%80%E4%BB%A5%E8%BF%98%E6%98%AF%E5%88%86%E5%BC%80%E6%9D%A5%E5%86%99%E5%90%A7%EF%BC%81%E4%BB%8A%E5%A4%A9%EF%BC%88%E5%A5%BD%E5%90%A7%EF%BC%8C%E5%85%B6%E5%AE%9E%E5%92%8C%E4%B8%8A%E4%B8%80%E7%AF%87%E6%98%AF%E5%90%8C%E4%B8%80%E5%A4%A9%EF%BC%89%E6%88%91%E4%BB%AC%E8%A6%81%E8%AF%B4%E7%9A%84DataBinding%E5%B8%B8%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E6%B3%A8%E8%A7%A3%EF%BC%81"><span class="nav-number">1.</span> <span class="nav-text">本来想直接一章节大致讲讲完DataBinding的，但是要知道，DataBinding知识点还是蛮多的（我也还没全部了解完）。加上我又喜欢写的细一点，所以一篇写下来洋洋洒洒一长篇，所以还是分开来写吧！今天（好吧，其实和上一篇是同一天）我们要说的DataBinding常用的一些注解！</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-MVVM%E6%8E%A2%E7%B4%A2%E7%B3%BB%E5%88%97"><span class="nav-number"></span> <span class="nav-text">Android MVVM探索系列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6%EF%BC%8C-%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">6， 一些常用注解说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9A%82%E6%97%B6%E6%88%91%E5%B0%B1%E7%94%A8%E5%88%B0%E8%BF%99%E4%B9%88%E4%BA%9B%E6%B3%A8%E8%A7%A3%EF%BC%8C%E6%88%91%E8%AE%A4%E4%B8%BA%E6%AF%94%E8%BE%83%E5%B8%B8%E7%94%A8%E7%9A%84%E3%80%82%E5%85%B6%E4%BB%96%E6%B3%A8%E8%A7%A3%E6%88%91%E5%9C%A8%E4%B8%8B%E9%9D%A2%E8%B4%B4%E4%B8%8A%E9%93%BE%E6%8E%A5%EF%BC%8C%E5%A4%A7%E5%AE%B6%E5%8F%AF%E4%BB%A5%E5%8E%BB%E7%9C%8B%E7%9C%8B%E3%80%82%E5%8F%A6%E5%A4%96%E6%9C%AC%E7%AB%A0%E8%8A%82%E4%B8%AD%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98%E8%BF%98%E6%9C%9B%E5%A4%A7%E5%AE%B6%E7%95%99%E8%A8%80%E6%8C%87%E6%AD%A3%EF%BC%8C%E6%AF%95%E7%AB%9F%E8%BF%98%E6%98%AF%E5%9C%A8MVVM%E6%8E%A2%E7%B4%A2%E9%81%93%E8%B7%AF%E4%B8%AD%EF%BC%81"><span class="nav-number">2.</span> <span class="nav-text">暂时我就用到这么些注解，我认为比较常用的。其他注解我在下面贴上链接，大家可以去看看。另外本章节中出现的问题还望大家留言指正，毕竟还是在MVVM探索道路中！</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Cy"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">Cy</p>
+  <div class="site-description" itemprop="description">Cy的个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cyixlq" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cyixlq" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:cyixlq@gmail.com" title="E-Mail → mailto:cyixlq@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/323edc6598aa" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;323edc6598aa" rel="noopener" target="_blank"><i class="fa fa-bookmark fa-fw"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://juejin.im/user/5b5ed95b6fb9a04f93300c3a" title="掘金 → https:&#x2F;&#x2F;juejin.im&#x2F;user&#x2F;5b5ed95b6fb9a04f93300c3a" rel="noopener" target="_blank"><i class="fa fa-bookmark fa-fw"></i>掘金</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=2421597157&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;2421597157&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fab fa-qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCmV99HA9H61r4F8nPew5fag?view_as=subscriber" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCmV99HA9H61r4F8nPew5fag?view_as&#x3D;subscriber" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cy Company</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":200,"height":450},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

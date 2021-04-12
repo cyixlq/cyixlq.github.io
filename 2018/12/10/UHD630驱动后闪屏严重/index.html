@@ -1,37 +1,617 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.cyixlq.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言之前我同学在公司申请了一个台式，硬件是由自己挑选，公司购买。于是乎，我和他一起挑选了兼容性较好的黑苹果硬件，前天组装好。然后就在昨天开始安装黑苹果。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UHD630核显驱动方法及驱动后闪屏严重问题解决记录">
+<meta property="og:url" content="https://www.cyixlq.top/2018/12/10/UHD630%E9%A9%B1%E5%8A%A8%E5%90%8E%E9%97%AA%E5%B1%8F%E4%B8%A5%E9%87%8D/index.html">
+<meta property="og:site_name" content="Cy个人博客">
+<meta property="og:description" content="前言之前我同学在公司申请了一个台式，硬件是由自己挑选，公司购买。于是乎，我和他一起挑选了兼容性较好的黑苹果硬件，前天组装好。然后就在昨天开始安装黑苹果。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E5%9B%9B%E5%8F%B6%E8%8D%89%E5%BC%95%E5%AF%BC%E7%95%8C%E9%9D%A2.jpg">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E7%95%8C%E9%9D%A2.jpg">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E5%AE%89%E8%A3%85%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5.jpg">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E6%8C%82%E8%BD%BDEFI%E5%88%86%E5%8C%BA.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8CFG%E7%94%9F%E6%88%90%E6%9C%BA%E5%9E%8B.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E5%86%85%E6%A0%B8%E5%B4%A9%E6%BA%83.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E5%A3%B0%E5%8D%A1layout-id%E6%B3%A8%E5%85%A5.png">
+<meta property="og:image" content="https://www.cyixlq.top/images/%E5%85%B3%E4%BA%8E%E6%9C%AC%E6%9C%BA.jpg">
+<meta property="article:published_time" content="2018-12-10T15:34:32.000Z">
+<meta property="article:modified_time" content="2021-04-12T02:28:47.199Z">
+<meta property="article:author" content="Cy">
+<meta property="article:tag" content="显卡驱动">
+<meta property="article:tag" content="问题解决记录">
+<meta property="article:tag" content="黑苹果安装">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.cyixlq.top/images/%E5%9B%9B%E5%8F%B6%E8%8D%89%E5%BC%95%E5%AF%BC%E7%95%8C%E9%9D%A2.jpg">
+
+<link rel="canonical" href="https://www.cyixlq.top/2018/12/10/UHD630%E9%A9%B1%E5%8A%A8%E5%90%8E%E9%97%AA%E5%B1%8F%E4%B8%A5%E9%87%8D/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>UHD630核显驱动方法及驱动后闪屏严重问题解决记录 | Cy个人博客</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Cy个人博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Cy个人博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">I am Yang , and I am young !</p>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-book">
+
+    <a href="/book/" rel="section"><i class="fa fa-book fa-fw"></i>好书</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/cyixlq" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.cyixlq.top/2018/12/10/UHD630%E9%A9%B1%E5%8A%A8%E5%90%8E%E9%97%AA%E5%B1%8F%E4%B8%A5%E9%87%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="Cy">
+      <meta itemprop="description" content="Cy的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cy个人博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UHD630核显驱动方法及驱动后闪屏严重问题解决记录
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-10 15:34:32" itemprop="dateCreated datePublished" datetime="2018-12-10T15:34:32Z">2018-12-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-12 02:28:47" itemprop="dateModified" datetime="2021-04-12T02:28:47Z">2021-04-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%BB%91%E8%8B%B9%E6%9E%9C/" itemprop="url" rel="index"><span itemprop="name">黑苹果</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/12/10/UHD630%E9%A9%B1%E5%8A%A8%E5%90%8E%E9%97%AA%E5%B1%8F%E4%B8%A5%E9%87%8D/" class="post-meta-item leancloud_visitors" data-flag-title="UHD630核显驱动方法及驱动后闪屏严重问题解决记录" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>之前我同学在公司申请了一个台式，硬件是由自己挑选，公司购买。于是乎，我和他一起挑选了兼容性较好的黑苹果硬件，前天组装好。然后就在昨天开始安装黑苹果。</p>
+<span id="more"></span>
+
+<h3 id="同学的电脑硬件配置如下，给大家参考参考："><a href="#同学的电脑硬件配置如下，给大家参考参考：" class="headerlink" title="同学的电脑硬件配置如下，给大家参考参考："></a>同学的电脑硬件配置如下，给大家参考参考：</h3><ul>
+<li>CPU：i5-9600K（一开始推荐的八代U，后来因为和主板组合买便宜点，选了这个。在CPU的选购上大家直接买八代U就好了，当然九代也是可以安装黑苹果的）</li>
+<li>主板：技嘉z370 HD3（因为加上CPU套装组合买便宜，因此也留下了一个坑。z370或者说370系列主板只支持八代U的，如果要支持九代U得先用八代U点亮后进入BISO升级一下BIOS版本）</li>
+<li>电源：直接选了个300W功率的的，型号牌子什么的不记得了</li>
+<li>机箱：这个直接跟着主板板型来选就好了，没什么特殊要求随便选选就好。因为我们选购的主板是ATX板型的，就直接选了个兼容ATX的机箱</li>
+<li>CPU散热器：买了个四铜管的散热器</li>
+<li>内存条：买了两根16G的DDR4 2600Mhz的骇客神条</li>
+<li>硬盘：512G Intel NVme固态硬盘</li>
+<li>显示器：同学自己买的LG 2K宽屏</li>
+<li>键鼠：随便买，能用就行，最好是插USB的  其实挑好CPU和主板是最关键的。</li>
+</ul>
+<h3 id="开始安装"><a href="#开始安装" class="headerlink" title="开始安装"></a>开始安装</h3><p>镜像：<a target="_blank" rel="noopener" href="https://blog.daliansky.net/macOS-Mojave-10.14.2-18C54-official-version-with-Clover-4792-original-image.html">【黑果小兵】macOS Mojave 10.14.2 18C54 正式版 with Clover 4792原版镜像</a>；下载完之后一定要校验一下MD5，确保完整性。</p>
+<p>制作安装U盘：在另一个电脑上，Windows下使用TransMac制作好安装U盘，这个就不说了，网上一大堆教程。</p>
+<p>BIOS设置：</p>
+<ul>
+<li><p>vt-d -&gt; disable</p>
+</li>
+<li><p>DVMT Pre-Allcated -&gt; 128M (以后万一要接4K显示屏)</p>
+</li>
+<li><p>DVMT Total Gfx Mem -&gt; Max</p>
+</li>
+<li><p>快速启动（boot quick） -&gt; disable</p>
+<p>  这块主板发现就这几个地方需要改改，如果还有我没发现的，大家可以留言</p>
+</li>
+</ul>
+<p>开始安装：制作好之后，把U盘插在后置USB2.0接口。这里说一下，最好插后面的USB接口，而且最好插在USB2.0接口上，减少禁行的发生。之后从BIOS中选择从U盘启动，进入四叶草。光标移动到options选项，回车；configs，回车；选择了config_UHD630这个配置文件。之后return，选择boot macOS Install form Install macOS Mojave，然后就开始跑代码了。<br><img src="/images/%E5%9B%9B%E5%8F%B6%E8%8D%89%E5%BC%95%E5%AF%BC%E7%95%8C%E9%9D%A2.jpg" alt="四叶草引导界面.jpg"><br>代码跑完之后出现苹果logo和进度条。进度条读完之后，进入了安装界面。先选择语言，当然选择简体中文啊。<br><img src="/images/%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E7%95%8C%E9%9D%A2.jpg" alt="语言选择界面"><br>之后工具选择界面，先选择磁盘工具，然后左侧选择我们的硬盘，然后点击抹掉。名称自己随便取，英文的不要太长就好。我们取的APPLE SSD。下面这一栏格式选择Mac OS拓展（日志），接着下面一栏选择GUID分区表格式，点击抹掉，然后点击完成。因为这是一块新的硬盘，抹掉会自动有一个大于200M的EFI分区。</p>
+<p>PS：如果你是已经装过Windows的硬盘，请确保你的EFI分区大于200M，否则会造成这一步抹盘失败。如果你的小于200M，给你一个比较好的解决办法。关机，拔下U盘，用一个装了PE的U盘启动，打开diskgenius磁盘管理工具，看看有没有MSR分区，有的话就右键这个分区，删除这个分区，然后右键EFI分区调整大小，直接把中间的杠杠拉倒最右边。如果没有的话，就悲催了，重新给你硬盘分一下区吧，这次记得把EFI分区调大一点。</p>
+<p>抹盘这一步操作完成之后，我们就可以关掉磁盘工具了。这次我们点击安装Mac OS，出现硬盘选择界面，选择我们刚刚抹好的盘，名字是APPLE SSD。之后就是协议什么的，同意就行。然后就是一段时间的等待。NVme的速度不错，两三分钟就完成了第一部分的安装。机器自动重启！</p>
+<p>重启后我们依旧从U盘启动，进入clover，选择options选项回车，选择configs回车，选择config_UHD630回车。然后return，这次我们选择的启动项是boot macOS Install from APPLE SSD（此处的APPLE SSD是我们之前抹盘的时候命名的名称，请根据你的实际情况选择）。然后开始跑代码，一切正常，出现苹果logo还有进度条。进度条下面出现了一行字，正在安装，剩余大约3分钟。<br><img src="/images/%E5%AE%89%E8%A3%85%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5.jpg" alt="安装第二阶段"><br>这里说明一下，现在苹果系统安装有两个阶段，我的理解是上一步的安装是把苹果系统的安装程序复制到硬盘中，这一步是用硬盘中的安装程序把系统安装到硬盘上。以前我记得是只有一步的，这样做可能是为了提高安装系统的速度，毕竟从U盘中执行安装程序和硬盘中执行安装程序相比肯定是更慢的。好的，回到正题，等这一步安装完成之后，我们的系统才算是真正安装到硬盘了。机器依旧自动重启，还是选择从U盘进去clover，选择options选项回车，选择configs回车，选择config_UHD630回车。然后return，这次的启动项我们选择boot macOS from APPLE SSD（一样的，APPLE SSD是我们之前抹盘时候命名的硬盘名称，请根据你自己的实际情况来）。一样跑代码，一样正常显示苹果logo加进度条，然后进入了系统。然后是引导设置，这些很简单，自己按照引导设置。</p>
+<h3 id="UHD630核显的驱动"><a href="#UHD630核显的驱动" class="headerlink" title="UHD630核显的驱动"></a>UHD630核显的驱动</h3><p>进入系统后，点击左上角的小苹果图标/关于本机，发现显存只有7M，也就是意味着核显并没有驱动上。理论上最新版Lilu.kext加上whatevergreen.kext这两个驱动，只要配置文件中Graphics/Inject Intel勾选上就能原生注入驱动的。但是不知道我同学的怎么没驱动上。只好自己动手了，使用Intel FB Patcher这款软件，教程：<a target="_blank" rel="noopener" href="https://blog.daliansky.net/Intel-FB-Patcher-tutorial-and-insertion-pose.html">Intel FB-Patcher使用教程及插入姿势</a>。拓展阅读：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d3686b6f3ef6">【黑苹果显卡驱动】通过Device/properties 给Framebuffer打补丁一点经验</a>。视频演示：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av35104213?from=search&seid=4950317082513025527">Intel FB-Patcher正确演示1102修改</a>。不过在此之前，我们还是让系统脱离U盘引导。使用Clover Configurator这款软件（后文中简称CFG软件）点击左侧mount EFI选项卡，选择我们硬盘上的EFI分区。<br><img src="/images/%E6%8C%82%E8%BD%BDEFI%E5%88%86%E5%8C%BA.png" alt="挂载EFI分区"><br>点击图中箭头所指的按钮后输入我们引导设置中设置的电脑密码就可以挂载硬盘上的EFI分区。同样使用这个方法也可以挂载U盘上的EFI分区。之后，我们把U盘中的efi分区EFI文件夹下的CLOVER文件夹和BOOT文件夹复制到硬盘efi分区的EFI文件夹下。复制好后打开硬盘中的EFI分区中的CLOVER文件夹，删除除去config_UHD630的其他plist配置文件，并且把config_UHD630.plist重命名为config.plist并且用CFG软件打开，点击左侧SMBIOS，右边点击一个上下在一起的箭头选择机型，以此来配置我们的黑苹果机型。我这里选择的是iMac18,3。<br><img src="/images/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8CFG%E7%94%9F%E6%88%90%E6%9C%BA%E5%9E%8B.png" alt="如何使用CFG生成机型"><br>现在就可以通过硬盘启动引导了，我们把U盘推出拔掉。下一段，我要好好说一下遇到的一些坑。</p>
+<h3 id="驱动核显遇到的坑"><a href="#驱动核显遇到的坑" class="headerlink" title="驱动核显遇到的坑"></a>驱动核显遇到的坑</h3><p>一开始用软件生成了config.plist文件放在桌面，使用CFG软件打开，同时打开硬盘EFI分区中的config文件。桌面的config文件使用CFG软件打开后，左侧选Devices，右下角点击Properties，可以看到需要打的补丁在里面了。在下面一小栏中左侧右键copy，粘贴到硬盘的EFI分区中的config文件对应位置。（上面视频演示中是直接把打好补丁的配置文件导出到硬盘EFI分区，这么做的话他会自动把补丁拷贝到硬盘的配置文件中，同时把原来的配置文件备份，我这里是手动复制过去）。补丁打好之后，重启发现显卡虽然驱动上了，显存2048M，但是屏幕一直在闪，眼睛都快要瞎掉那种。一开始我以为是因为同学2K屏屏幕的缘故，故调整一下参数：</p>
+<ul>
+<li>framebuffer-stolenmem:00003001 -&gt; 00000008(19M改128M)</li>
+<li>framebuffer-unifiedmem:00000080 -&gt; 000000C0(显存调整成3G)</li>
+<li>framebuffer-fbmem:00009000 -&gt; 00000003(fb内存9M改48M)</li>
+</ul>
+<p>添加一个参数：</p>
+<ul>
+<li>framebuffer-cursormem -&gt; 00000003(cursor内存设置为48M)</li>
+</ul>
+<p>修改好之后，保存，通过硬盘启动。竟然发现内核崩溃了，原因是framebuffer补丁没打好。<br><img src="/images/%E5%86%85%E6%A0%B8%E5%B4%A9%E6%BA%83.png" alt="内核崩溃"><br>可是我明明打了啊，还是按照高分屏来打的啊！后来我猜测，framebuffer-stolenmem翻译成中文意思是丢失的内存，作用可能是给BIOS中添加DVMT内存的。4K屏需要128M或以上，普通屏幕需要32M以上，而笔记本一般不能在bios设置这个，而一般大小可能是32M，具体多少我不清楚，所以只能通过这个补一个19M上去，这样就会大于32M了。可是要知道我们一开始在BIOS里面就设置成了128M，然后我们又加了一个128M，可能是这个DVMT内存过大导致补丁反而没打上去。有了这个猜想，用U盘引导启动，进入系统后我又把这个改回去了。之后关机，又用硬盘引导启动，发现能进去系统（原来我的猜想是正确的，吓得我赶紧去改了一下我的博客：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d3686b6f3ef6">【黑苹果显卡驱动】通过Device/properties 给Framebuffer打补丁一点经验</a>）。显存也是3G，但是还是不停在闪屏。莫非闪屏不是这些的影响？幸运的是，在网上爬帖发现也有人遇到这个问题，驱动UHD630之后却一直在闪屏，他们通过把进行修改成iMac18,1解决了。原来这么简单就可以解决。果然，我使用CFG软件编辑硬盘上的config配置文件，修改SMBIOS为iMac18,1之后不会闪屏了。</p>
+<h3 id="声卡驱动"><a href="#声卡驱动" class="headerlink" title="声卡驱动"></a>声卡驱动</h3><p>这一部分比较简单，因为这块主板声卡驱动有先例，我知道这块板子的layout-id该注入多少。（layout-id影响着声卡输出路线。个人理解：比如声卡通过什么线路输出到前置耳机孔、后置耳机孔、内置扬声器啊什么的。中文意思就是布局id，顾名思义，有点输出线路布局的味道。也就是声卡通过什么线路输出通过这个id决定，填对了才会有声音嘛。词穷，我也不知道怎么解释，想知道有哪些数字可以看我上一篇博客<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/8c9abd4f5b66">《记一次黑苹果安装》</a>）。这块主板layout-id是92，我们通过CFG软件打开硬盘上的config配置文件，在图中位置填上92。<br><img src="/images/%E5%A3%B0%E5%8D%A1layout-id%E6%B3%A8%E5%85%A5.png" alt="声卡layout-id注入"><br>然后打开硬盘EFI分区：CLOVER/kexts/other，打开这个文件夹之后打开这个文件夹下的<code>其他驱动</code>文件夹，把<code>AppleALC</code>最新版这个驱动放到<code>other</code>目录下。记得保存好配置文件之后重启一下，声卡就成功驱动上了。最后，附上一张关于本机图片：<br><img src="/images/%E5%85%B3%E4%BA%8E%E6%9C%AC%E6%9C%BA.jpg" alt="关于本机"></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8/" rel="tag"># 显卡驱动</a>
+              <a href="/tags/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BD%95/" rel="tag"># 问题解决记录</a>
+              <a href="/tags/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85/" rel="tag"># 黑苹果安装</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/12/04/FB-patcher/" rel="prev" title="【黑苹果显卡驱动】通过Device/properties 给Framebuffer打补丁一点经验">
+      <i class="fa fa-chevron-left"></i> 【黑苹果显卡驱动】通过Device/properties 给Framebuffer打补丁一点经验
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/01/14/higher-music/" rel="next" title="higher-music 基于Vue的支持歌单外链的在线网页音乐播放器">
+      higher-music 基于Vue的支持歌单外链的在线网页音乐播放器 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjYwOS8xMzE0NA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E5%AD%A6%E7%9A%84%E7%94%B5%E8%84%91%E7%A1%AC%E4%BB%B6%E9%85%8D%E7%BD%AE%E5%A6%82%E4%B8%8B%EF%BC%8C%E7%BB%99%E5%A4%A7%E5%AE%B6%E5%8F%82%E8%80%83%E5%8F%82%E8%80%83%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">同学的电脑硬件配置如下，给大家参考参考：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E5%AE%89%E8%A3%85"><span class="nav-number">3.</span> <span class="nav-text">开始安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UHD630%E6%A0%B8%E6%98%BE%E7%9A%84%E9%A9%B1%E5%8A%A8"><span class="nav-number">4.</span> <span class="nav-text">UHD630核显的驱动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%B1%E5%8A%A8%E6%A0%B8%E6%98%BE%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91"><span class="nav-number">5.</span> <span class="nav-text">驱动核显遇到的坑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A3%B0%E5%8D%A1%E9%A9%B1%E5%8A%A8"><span class="nav-number">6.</span> <span class="nav-text">声卡驱动</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Cy"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">Cy</p>
+  <div class="site-description" itemprop="description">Cy的个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cyixlq" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cyixlq" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:cyixlq@gmail.com" title="E-Mail → mailto:cyixlq@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/323edc6598aa" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;323edc6598aa" rel="noopener" target="_blank"><i class="fa fa-bookmark fa-fw"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://juejin.im/user/5b5ed95b6fb9a04f93300c3a" title="掘金 → https:&#x2F;&#x2F;juejin.im&#x2F;user&#x2F;5b5ed95b6fb9a04f93300c3a" rel="noopener" target="_blank"><i class="fa fa-bookmark fa-fw"></i>掘金</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=2421597157&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;2421597157&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fab fa-qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCmV99HA9H61r4F8nPew5fag?view_as=subscriber" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCmV99HA9H61r4F8nPew5fag?view_as&#x3D;subscriber" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cy Company</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":200,"height":450},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>
