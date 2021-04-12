@@ -495,6 +495,8 @@
 <li>事件发送不是通过反射执行，但现在EventBus通过APT也可以实现</li>
 <li>其它，还有吗？我暂时没想到</li>
 </ul>
+<span id="more"></span>
+
 <p>接着，我们看一看将LiveData打造成一款事件总线类型的框架首先要克服的一些问题：</p>
 <ul>
 <li>在组件从非活跃状态变成活跃状态时，会将observe之前的value发送过来。（这个问题怎么说呢，你说它是问题，但是有的业务场景确实需要(sticky模式，但是并不需要每次从onStop之后恢复过来都发送一次)，你说他不是问题，但是大部分场景我们确实只需要在订阅事件之后的数据。</li>
@@ -535,6 +537,32 @@
       </tags>
   </entry>
   <entry>
+    <title>php出现Noinput file specified问题解决</title>
+    <url>/2018/03/14/php%E5%87%BA%E7%8E%B0Noinput%20file%20specified%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</url>
+    <content><![CDATA[<p>学PHP学着学着又出问题了，这不，又过来记录记录。<br>这次出现的问题叫做php出现Noinput file specified，大概问题我觉得是因为文件找不到。<br>出现的起因是这样的，我做了一个后台首页判断，看看你是否登录，如果没有登录的话就要跳转到登录页面，于是它的跳转地址是这个：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http:&#x2F;&#x2F;www.cy.com&#x2F;index&#x2F;user&#x2F;login.html</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>于是乎，页面就直接出现Noinput file specified这一串字符串，我看了一眼地址，原因很简单，我没有index.php在里面，如果输入下面的地址访问就是没问题的：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http:&#x2F;&#x2F;www.cy.com&#x2F;index.php&#x2F;index&#x2F;user&#x2F;login.html</span><br></pre></td></tr></table></figure>
+<p>可是总不能在用户未登录的时候跳转到登录页面又要用户自己输入index.php吧，况且用户还不一定知道要这么改，于是一番搜索，找到解决办法。我用的服务器是Apache的，解决办法就是打开ThinkPHP框架中的public目录（我用的是ThinkPHP框架），里面有个文件是 <strong>.htaccess</strong> ，我们把它打开，它现在的内容是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;IfModule mod_rewrite.c&gt;</span><br><span class="line">  Options +FollowSymlinks -Multiviews</span><br><span class="line">  RewriteEngine On</span><br><span class="line">  RewriteCond %&#123;REQUEST_FILENAME&#125; !-d</span><br><span class="line">  RewriteCond %&#123;REQUEST_FILENAME&#125; !-f</span><br><span class="line">  RewriteRule ^(.*)$ index.php&#x2F;$1 [QSA,PT,L]</span><br><span class="line">&lt;&#x2F;IfModule&gt;</span><br></pre></td></tr></table></figure>
+<p>打开之后我们要做的很简单，看到那个index.php这串字符没？我们在index.php后面加上一个 <strong>?</strong> 就OK了，改完之后的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;IfModule mod_rewrite.c&gt;</span><br><span class="line">  Options +FollowSymlinks -Multiviews</span><br><span class="line">  RewriteEngine On</span><br><span class="line">  RewriteCond %&#123;REQUEST_FILENAME&#125; !-d</span><br><span class="line">  RewriteCond %&#123;REQUEST_FILENAME&#125; !-f</span><br><span class="line">  RewriteRule ^(.*)$ index.php?&#x2F;$1 [QSA,PT,L]</span><br><span class="line">&lt;&#x2F;IfModule&gt;</span><br></pre></td></tr></table></figure>
+<p>接着我重新访问一下我的首页，正常跳转到登录界面了，激动！！！又增加了点用户体验！！！</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>上面的办法只对Apache服务器有效，其他修改办法参照下文：  </p>
+<h3 id="一-IIS-Noinput-file-specified"><a href="#一-IIS-Noinput-file-specified" class="headerlink" title="(一)IIS Noinput file specified"></a>(一)IIS Noinput file specified</h3><p><strong>方法一：</strong> 改PHP.ini中的doc_root行，打开ini文件注释掉此行，然后重启IIS<br><strong>方法二：</strong> 请修改php.ini，找到 <strong>; cgi.force_redirect = 1</strong> 去掉前面分号，把后面的1改为0即<br><strong>cgi.force_redirect = 0</strong></p>
+<h3 id="二-nginx配置遭遇No-inputfile-specified"><a href="#二-nginx配置遭遇No-inputfile-specified" class="headerlink" title="(二)nginx配置遭遇No inputfile specified"></a>(二)nginx配置遭遇No inputfile specified</h3><p><strong>方法一：</strong> php.ini(/etc/php5/cgi/php.ini)的配置中这两项<br><strong>cgi.fix_pathinfo=1</strong> (这个是自己添加的)<br><strong>doc_root=</strong><br><strong>方法二：</strong> nginx配置文件/etc/nginx/sites-available/default中注意以下部分  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location ~ .php$ &#123;</span><br><span class="line">fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">fastcgi_index index.php;</span><br><span class="line">fastcgi_param SCRIPT_FILENAME &#x2F;var&#x2F;www&#x2F;nginx-default$fastcgi_script_name;</span><br><span class="line">include fastcgi_params;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的各项参数请按照你的项目实际情况配置</p>
+]]></content>
+      <categories>
+        <category>PHP</category>
+      </categories>
+      <tags>
+        <tag>问题解决记录</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>自定义一个下拉刷新控件</title>
     <url>/2019/02/19/refresh-layout/</url>
     <content><![CDATA[<p>第一次尝试写一个下拉刷新控件，一开始的目的只是想了解dispatchTouchEvent，onInterceptTouchEvent和onTouchEvent这几个事件的分别，没想到最后竟然写了一个刷新控件。好的，废话不多说，先来看看效果图：<br><img src="/images/%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0%E6%95%88%E6%9E%9C%E5%9B%BE.gif" alt="自定义下拉刷新效果图.gif"></p>
@@ -558,6 +586,47 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public void refreshFinish(boolean suc) &#123;</span><br><span class="line">    if (suc) &#123;</span><br><span class="line">        configHeaderView(refreshSuc, ON_FINISH, suc);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        configHeaderView(refreshFail, ON_FINISH, suc);</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 刷新完成，提示刷新结果后</span><br><span class="line">    ObjectAnimator animator1 &#x3D; ObjectAnimator.ofFloat(mTarget, &quot;translationY&quot;, refreshDist, 0);</span><br><span class="line">    animator1.setDuration(200).setStartDelay(500);</span><br><span class="line">    animator1.start();</span><br><span class="line">    ObjectAnimator animator2 &#x3D; ObjectAnimator.ofFloat(headerView, &quot;translationY&quot;,</span><br><span class="line">            (refreshDist - headerView.getMeasuredHeight()) &#x2F; 2, 0);</span><br><span class="line">    animator2.setDuration(200).setStartDelay(500);</span><br><span class="line">    animator2.addListener(new AnimatorListenerAdapter() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">            isRefreshing &#x3D; false;</span><br><span class="line">            canRefresh &#x3D; false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    animator2.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>还有一些设置刷新监听的代码并没有放到本文中讲解，这一部分感觉很简单，可以到源码中查看更多详细内容，注释也都很详细。源码地址：<a href="https://github.com/cyixlq/ViewTest">https://github.com/cyixlq/ViewTest</a></p>
 <h5 id="至此，一个简单的下拉刷新控件就完成了！这些代码肯定还是很繁琐，有很多有用的API我还没熟悉，希望以后能更进一步，把代码写的更精炼。"><a href="#至此，一个简单的下拉刷新控件就完成了！这些代码肯定还是很繁琐，有很多有用的API我还没熟悉，希望以后能更进一步，把代码写的更精炼。" class="headerlink" title="至此，一个简单的下拉刷新控件就完成了！这些代码肯定还是很繁琐，有很多有用的API我还没熟悉，希望以后能更进一步，把代码写的更精炼。"></a>至此，一个简单的下拉刷新控件就完成了！这些代码肯定还是很繁琐，有很多有用的API我还没熟悉，希望以后能更进一步，把代码写的更精炼。</h5>]]></content>
+      <categories>
+        <category>Android</category>
+      </categories>
+      <tags>
+        <tag>自定义View实战</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>安卓自定义优惠券View</title>
+    <url>/2018/03/14/%E5%AE%89%E5%8D%93%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BC%98%E6%83%A0%E5%88%B8View/</url>
+    <content><![CDATA[<h3 id="欢迎来我的个人博客查看更多文章-Cy的个人博客"><a href="#欢迎来我的个人博客查看更多文章-Cy的个人博客" class="headerlink" title="欢迎来我的个人博客查看更多文章: Cy的个人博客"></a>欢迎来我的个人博客查看更多文章: <a href="https://cyixlq.top/">Cy的个人博客</a></h3><p>不久之前写过一篇基础的自定义View的博文，今天就来实践一下自定义View，参考了网上一个自定义View控件的博文完成的（毕竟还是小白）。以下是我完成的一些步骤：  </p>
+<ol>
+<li><p>首先肯定需要编写一个类，让它继承自View（感觉我这个简单的自定义view继承RelativeLayout就够了），然后重写构造方法咯，这个简单，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class QuanView extends RelativeLayout&#123;</span><br><span class="line"></span><br><span class="line">    public QuanView(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public QuanView(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<span id="more"></span></li>
+<li><p>然后就是初始化画笔，然后设定一些属性咯，所以现在的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class QuanView extends RelativeLayout&#123;</span><br><span class="line"></span><br><span class="line">    private Paint mPaint;</span><br><span class="line"></span><br><span class="line">    private float mGap&#x3D;20;    &#x2F;&#x2F;圆和圆之间的间距</span><br><span class="line">    private float mRadius&#x3D;15; &#x2F;&#x2F;圆的半径</span><br><span class="line">    private float mRemain;    &#x2F;&#x2F;画完圆和圆间距后多出来的距离</span><br><span class="line">    private int mCircleNum;   &#x2F;&#x2F;圆圈的数量</span><br><span class="line"></span><br><span class="line">    public QuanView(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line">        initPaint();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public QuanView(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">        initPaint();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void initPaint()&#123;</span><br><span class="line">        mPaint&#x3D;new Paint(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">        mPaint.setColor(Color.WHITE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>在上一篇自定义博文中我们知道onSizeChanged方法会在onDraw方法前执行，我们可以在这个方法中计算好需要绘制的圆圈的个数，所以onSizeChanged方法中代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onSizeChanged(int w, int h, int oldw, int oldh) &#123;</span><br><span class="line">    super.onSizeChanged(w, h, oldw, oldh);</span><br><span class="line">    if (mRemain &#x3D;&#x3D; 0) &#123;</span><br><span class="line">        &#x2F;&#x2F;计算不整除的剩余部分</span><br><span class="line">        mRemain &#x3D; (int) (w - mGap) % (2 * mRadius + mGap);</span><br><span class="line">    &#125;</span><br><span class="line">    mCircleNum &#x3D; (int) ((w - mGap) &#x2F; (2 * mRadius + mGap));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>接下来就是最重要的部分了，重写onDraw方法，绘制自定义View，onDraw代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">    super.onDraw(canvas);</span><br><span class="line">    for (int i &#x3D; 0; i &lt; mCircleNum; i++) &#123;</span><br><span class="line">        &#x2F;&#x2F;计算出要画的圆圈的x轴位置</span><br><span class="line">        float x &#x3D; mGap + mRadius + mRemain &#x2F; 2 + ((mGap + mRadius * 2) * i);</span><br><span class="line">        &#x2F;&#x2F;从x位置开始画上面的圆圈</span><br><span class="line">        canvas.drawCircle(x, 0, mRadius, mPaint);</span><br><span class="line">        &#x2F;&#x2F;从x位置开始画下面的圆圈</span><br><span class="line">        canvas.drawCircle(x, getHeight(), mRadius, mPaint);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>至此，自定义的优惠券View已经可以使用了，让我们把它加入到布局文件中，代码如下 ：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;top.cyixlq.view.widght.QuanView</span><br><span class="line">    android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;150dp&quot;</span><br><span class="line">    android:background&#x3D;&quot;@color&#x2F;colorPrimary&quot;&gt;</span><br><span class="line">&lt;&#x2F;top.cyixlq.view.widght.QuanView&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>运行后的结果如图所示：<br><img src="/images/%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BC%98%E6%83%A0%E5%88%B8View%E6%95%88%E6%9E%9C%E5%9B%BE.webp" alt="运行效果"></p>
+</li>
+<li><p>添加自定义属性，我们虽然能正常使用了，但是各个用户间需求不同我们还要能够自定义啊，这样才能用的舒心啊！首先就要在values目录下新建一个文件了，attrs.xml，然后在文件中加入以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot; ?&gt;</span><br><span class="line">&lt;resources&gt;</span><br><span class="line">    &lt;declare-styleable name&#x3D;&quot;QuanView&quot;&gt;</span><br><span class="line">        &lt;!--圆半径大小--&gt;</span><br><span class="line">        &lt;attr name&#x3D;&quot;radius&quot; format&#x3D;&quot;dimension&quot; &#x2F;&gt;</span><br><span class="line">        &lt;!--圆与圆之间的间隔--&gt;</span><br><span class="line">        &lt;attr name&#x3D;&quot;gap&quot; format&#x3D;&quot;dimension&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;declare-styleable&gt;</span><br><span class="line">&lt;&#x2F;resources&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p> 修改View的构造函数，读取布局文件中传来的参数：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public QuanView(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">        initPaint();</span><br><span class="line">        TypedArray typedArray&#x3D;context.obtainStyledAttributes(attrs, R.styleable.QuanView);</span><br><span class="line">        mGap &#x3D; typedArray.getDimensionPixelOffset(R.styleable.QuanView_gap,20);&#x2F;&#x2F;最后那个参数代表默认值，如果布局文件中没有传入该参数则使用默认值</span><br><span class="line">        mRadius &#x3D; typedArray.getDimensionPixelOffset(R.styleable.QuanView_radius,15);</span><br><span class="line">        typedArray.recycle();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>在布局文件中加上我们的自定义的参数，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;top.cyixlq.view.widght.QuanView</span><br><span class="line">        android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;150dp&quot;</span><br><span class="line">        app:gap&#x3D;&quot;2dp&quot;</span><br><span class="line">        app:radius&#x3D;&quot;2dp&quot;</span><br><span class="line">        android:background&#x3D;&quot;@color&#x2F;colorPrimary&quot;&gt;</span><br><span class="line">&lt;&#x2F;top.cyixlq.view.widght.QuanView&gt;</span><br></pre></td></tr></table></figure>
+<p>（别忘了，使用了自定义的参数的话要引入一个命名空间哦，如下所示）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;</span><br></pre></td></tr></table></figure></li>
+<li><p>如果觉得这样不够帅的话，app这个字段是可以换的，例如:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">xmlns:cy&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;</span><br></pre></td></tr></table></figure>
+<p>这时候在布局文件中的自定义组件的那一段代码报错了<br><img src="/images/%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BC%98%E6%83%A0%E5%88%B8View%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E6%8A%A5%E9%94%99.webp" alt="命名空间报错了"><br>这时候仅仅需要将布局中自定义的代码换成如下所示就可以了。（将app换成引入时候的名称cy）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;top.cyixlq.view.widght.QuanView</span><br><span class="line">        android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;150dp&quot;</span><br><span class="line">        cy:gap&#x3D;&quot;2dp&quot;</span><br><span class="line">        cy:radius&#x3D;&quot;2dp&quot;</span><br><span class="line">        android:background&#x3D;&quot;@color&#x2F;colorPrimary&quot;&gt;</span><br><span class="line">&lt;&#x2F;top.cyixlq.view.widght.QuanView&gt;</span><br></pre></td></tr></table></figure>
+<p>这样是不是就具有标志性了呢？是不是更帅一点了呢？<br>最后我们再来看看修改后的效果吧！<br><img src="/images/%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BC%98%E6%83%A0%E5%88%B8View%E6%95%88%E6%9E%9C%E5%9B%BE2.webp" alt="我们会发现锯齿变小了好多"></p>
+</li>
+</ol>
+<h4 id="至此，我们一个简单的自定义View就到此为止啦-拜了个拜。。。"><a href="#至此，我们一个简单的自定义View就到此为止啦-拜了个拜。。。" class="headerlink" title="至此，我们一个简单的自定义View就到此为止啦!拜了个拜。。。"></a>至此，我们一个简单的自定义View就到此为止啦!拜了个拜。。。</h4>]]></content>
       <categories>
         <category>Android</category>
       </categories>
@@ -614,73 +683,6 @@
         <tag>vue</tag>
         <tag>Vue实战</tag>
         <tag>购物车</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>php出现Noinput file specified问题解决</title>
-    <url>/2018/03/14/php%E5%87%BA%E7%8E%B0Noinput%20file%20specified%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</url>
-    <content><![CDATA[<p>学PHP学着学着又出问题了，这不，又过来记录记录。<br>这次出现的问题叫做php出现Noinput file specified，大概问题我觉得是因为文件找不到。<br>出现的起因是这样的，我做了一个后台首页判断，看看你是否登录，如果没有登录的话就要跳转到登录页面，于是它的跳转地址是这个：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http:&#x2F;&#x2F;www.cy.com&#x2F;index&#x2F;user&#x2F;login.html</span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<p>于是乎，页面就直接出现Noinput file specified这一串字符串，我看了一眼地址，原因很简单，我没有index.php在里面，如果输入下面的地址访问就是没问题的：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http:&#x2F;&#x2F;www.cy.com&#x2F;index.php&#x2F;index&#x2F;user&#x2F;login.html</span><br></pre></td></tr></table></figure>
-<p>可是总不能在用户未登录的时候跳转到登录页面又要用户自己输入index.php吧，况且用户还不一定知道要这么改，于是一番搜索，找到解决办法。我用的服务器是Apache的，解决办法就是打开ThinkPHP框架中的public目录（我用的是ThinkPHP框架），里面有个文件是 <strong>.htaccess</strong> ，我们把它打开，它现在的内容是这样的：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;IfModule mod_rewrite.c&gt;</span><br><span class="line">  Options +FollowSymlinks -Multiviews</span><br><span class="line">  RewriteEngine On</span><br><span class="line">  RewriteCond %&#123;REQUEST_FILENAME&#125; !-d</span><br><span class="line">  RewriteCond %&#123;REQUEST_FILENAME&#125; !-f</span><br><span class="line">  RewriteRule ^(.*)$ index.php&#x2F;$1 [QSA,PT,L]</span><br><span class="line">&lt;&#x2F;IfModule&gt;</span><br></pre></td></tr></table></figure>
-<p>打开之后我们要做的很简单，看到那个index.php这串字符没？我们在index.php后面加上一个 <strong>?</strong> 就OK了，改完之后的代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;IfModule mod_rewrite.c&gt;</span><br><span class="line">  Options +FollowSymlinks -Multiviews</span><br><span class="line">  RewriteEngine On</span><br><span class="line">  RewriteCond %&#123;REQUEST_FILENAME&#125; !-d</span><br><span class="line">  RewriteCond %&#123;REQUEST_FILENAME&#125; !-f</span><br><span class="line">  RewriteRule ^(.*)$ index.php?&#x2F;$1 [QSA,PT,L]</span><br><span class="line">&lt;&#x2F;IfModule&gt;</span><br></pre></td></tr></table></figure>
-<p>接着我重新访问一下我的首页，正常跳转到登录界面了，激动！！！又增加了点用户体验！！！</p>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>上面的办法只对Apache服务器有效，其他修改办法参照下文：  </p>
-<h3 id="一-IIS-Noinput-file-specified"><a href="#一-IIS-Noinput-file-specified" class="headerlink" title="(一)IIS Noinput file specified"></a>(一)IIS Noinput file specified</h3><p><strong>方法一：</strong> 改PHP.ini中的doc_root行，打开ini文件注释掉此行，然后重启IIS<br><strong>方法二：</strong> 请修改php.ini，找到 <strong>; cgi.force_redirect = 1</strong> 去掉前面分号，把后面的1改为0即<br><strong>cgi.force_redirect = 0</strong></p>
-<h3 id="二-nginx配置遭遇No-inputfile-specified"><a href="#二-nginx配置遭遇No-inputfile-specified" class="headerlink" title="(二)nginx配置遭遇No inputfile specified"></a>(二)nginx配置遭遇No inputfile specified</h3><p><strong>方法一：</strong> php.ini(/etc/php5/cgi/php.ini)的配置中这两项<br><strong>cgi.fix_pathinfo=1</strong> (这个是自己添加的)<br><strong>doc_root=</strong><br><strong>方法二：</strong> nginx配置文件/etc/nginx/sites-available/default中注意以下部分  </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location ~ .php$ &#123;</span><br><span class="line">fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">fastcgi_index index.php;</span><br><span class="line">fastcgi_param SCRIPT_FILENAME &#x2F;var&#x2F;www&#x2F;nginx-default$fastcgi_script_name;</span><br><span class="line">include fastcgi_params;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面的各项参数请按照你的项目实际情况配置</p>
-]]></content>
-      <categories>
-        <category>PHP</category>
-      </categories>
-      <tags>
-        <tag>问题解决记录</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>安卓自定义优惠券View</title>
-    <url>/2018/03/14/%E5%AE%89%E5%8D%93%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BC%98%E6%83%A0%E5%88%B8View/</url>
-    <content><![CDATA[<h3 id="欢迎来我的个人博客查看更多文章-Cy的个人博客"><a href="#欢迎来我的个人博客查看更多文章-Cy的个人博客" class="headerlink" title="欢迎来我的个人博客查看更多文章: Cy的个人博客"></a>欢迎来我的个人博客查看更多文章: <a href="https://cyixlq.top/">Cy的个人博客</a></h3><p>不久之前写过一篇基础的自定义View的博文，今天就来实践一下自定义View，参考了网上一个自定义View控件的博文完成的（毕竟还是小白）。以下是我完成的一些步骤：  </p>
-<ol>
-<li><p>首先肯定需要编写一个类，让它继承自View（感觉我这个简单的自定义view继承RelativeLayout就够了），然后重写构造方法咯，这个简单，代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class QuanView extends RelativeLayout&#123;</span><br><span class="line"></span><br><span class="line">    public QuanView(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public QuanView(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<span id="more"></span></li>
-<li><p>然后就是初始化画笔，然后设定一些属性咯，所以现在的代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class QuanView extends RelativeLayout&#123;</span><br><span class="line"></span><br><span class="line">    private Paint mPaint;</span><br><span class="line"></span><br><span class="line">    private float mGap&#x3D;20;    &#x2F;&#x2F;圆和圆之间的间距</span><br><span class="line">    private float mRadius&#x3D;15; &#x2F;&#x2F;圆的半径</span><br><span class="line">    private float mRemain;    &#x2F;&#x2F;画完圆和圆间距后多出来的距离</span><br><span class="line">    private int mCircleNum;   &#x2F;&#x2F;圆圈的数量</span><br><span class="line"></span><br><span class="line">    public QuanView(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line">        initPaint();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public QuanView(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">        initPaint();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void initPaint()&#123;</span><br><span class="line">        mPaint&#x3D;new Paint(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">        mPaint.setColor(Color.WHITE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>在上一篇自定义博文中我们知道onSizeChanged方法会在onDraw方法前执行，我们可以在这个方法中计算好需要绘制的圆圈的个数，所以onSizeChanged方法中代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onSizeChanged(int w, int h, int oldw, int oldh) &#123;</span><br><span class="line">    super.onSizeChanged(w, h, oldw, oldh);</span><br><span class="line">    if (mRemain &#x3D;&#x3D; 0) &#123;</span><br><span class="line">        &#x2F;&#x2F;计算不整除的剩余部分</span><br><span class="line">        mRemain &#x3D; (int) (w - mGap) % (2 * mRadius + mGap);</span><br><span class="line">    &#125;</span><br><span class="line">    mCircleNum &#x3D; (int) ((w - mGap) &#x2F; (2 * mRadius + mGap));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>接下来就是最重要的部分了，重写onDraw方法，绘制自定义View，onDraw代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">    super.onDraw(canvas);</span><br><span class="line">    for (int i &#x3D; 0; i &lt; mCircleNum; i++) &#123;</span><br><span class="line">        &#x2F;&#x2F;计算出要画的圆圈的x轴位置</span><br><span class="line">        float x &#x3D; mGap + mRadius + mRemain &#x2F; 2 + ((mGap + mRadius * 2) * i);</span><br><span class="line">        &#x2F;&#x2F;从x位置开始画上面的圆圈</span><br><span class="line">        canvas.drawCircle(x, 0, mRadius, mPaint);</span><br><span class="line">        &#x2F;&#x2F;从x位置开始画下面的圆圈</span><br><span class="line">        canvas.drawCircle(x, getHeight(), mRadius, mPaint);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>至此，自定义的优惠券View已经可以使用了，让我们把它加入到布局文件中，代码如下 ：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;top.cyixlq.view.widght.QuanView</span><br><span class="line">    android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;150dp&quot;</span><br><span class="line">    android:background&#x3D;&quot;@color&#x2F;colorPrimary&quot;&gt;</span><br><span class="line">&lt;&#x2F;top.cyixlq.view.widght.QuanView&gt;</span><br></pre></td></tr></table></figure></li>
-<li><p>运行后的结果如图所示：<br><img src="/images/%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BC%98%E6%83%A0%E5%88%B8View%E6%95%88%E6%9E%9C%E5%9B%BE.webp" alt="运行效果"></p>
-</li>
-<li><p>添加自定义属性，我们虽然能正常使用了，但是各个用户间需求不同我们还要能够自定义啊，这样才能用的舒心啊！首先就要在values目录下新建一个文件了，attrs.xml，然后在文件中加入以下代码：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot; ?&gt;</span><br><span class="line">&lt;resources&gt;</span><br><span class="line">    &lt;declare-styleable name&#x3D;&quot;QuanView&quot;&gt;</span><br><span class="line">        &lt;!--圆半径大小--&gt;</span><br><span class="line">        &lt;attr name&#x3D;&quot;radius&quot; format&#x3D;&quot;dimension&quot; &#x2F;&gt;</span><br><span class="line">        &lt;!--圆与圆之间的间隔--&gt;</span><br><span class="line">        &lt;attr name&#x3D;&quot;gap&quot; format&#x3D;&quot;dimension&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;declare-styleable&gt;</span><br><span class="line">&lt;&#x2F;resources&gt;</span><br></pre></td></tr></table></figure></li>
-<li><p> 修改View的构造函数，读取布局文件中传来的参数：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public QuanView(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">        initPaint();</span><br><span class="line">        TypedArray typedArray&#x3D;context.obtainStyledAttributes(attrs, R.styleable.QuanView);</span><br><span class="line">        mGap &#x3D; typedArray.getDimensionPixelOffset(R.styleable.QuanView_gap,20);&#x2F;&#x2F;最后那个参数代表默认值，如果布局文件中没有传入该参数则使用默认值</span><br><span class="line">        mRadius &#x3D; typedArray.getDimensionPixelOffset(R.styleable.QuanView_radius,15);</span><br><span class="line">        typedArray.recycle();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>在布局文件中加上我们的自定义的参数，代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;top.cyixlq.view.widght.QuanView</span><br><span class="line">        android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;150dp&quot;</span><br><span class="line">        app:gap&#x3D;&quot;2dp&quot;</span><br><span class="line">        app:radius&#x3D;&quot;2dp&quot;</span><br><span class="line">        android:background&#x3D;&quot;@color&#x2F;colorPrimary&quot;&gt;</span><br><span class="line">&lt;&#x2F;top.cyixlq.view.widght.QuanView&gt;</span><br></pre></td></tr></table></figure>
-<p>（别忘了，使用了自定义的参数的话要引入一个命名空间哦，如下所示）</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;</span><br></pre></td></tr></table></figure></li>
-<li><p>如果觉得这样不够帅的话，app这个字段是可以换的，例如:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">xmlns:cy&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;</span><br></pre></td></tr></table></figure>
-<p>这时候在布局文件中的自定义组件的那一段代码报错了<br><img src="/images/%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BC%98%E6%83%A0%E5%88%B8View%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E6%8A%A5%E9%94%99.webp" alt="命名空间报错了"><br>这时候仅仅需要将布局中自定义的代码换成如下所示就可以了。（将app换成引入时候的名称cy）</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;top.cyixlq.view.widght.QuanView</span><br><span class="line">        android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;150dp&quot;</span><br><span class="line">        cy:gap&#x3D;&quot;2dp&quot;</span><br><span class="line">        cy:radius&#x3D;&quot;2dp&quot;</span><br><span class="line">        android:background&#x3D;&quot;@color&#x2F;colorPrimary&quot;&gt;</span><br><span class="line">&lt;&#x2F;top.cyixlq.view.widght.QuanView&gt;</span><br></pre></td></tr></table></figure>
-<p>这样是不是就具有标志性了呢？是不是更帅一点了呢？<br>最后我们再来看看修改后的效果吧！<br><img src="/images/%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BC%98%E6%83%A0%E5%88%B8View%E6%95%88%E6%9E%9C%E5%9B%BE2.webp" alt="我们会发现锯齿变小了好多"></p>
-</li>
-</ol>
-<h4 id="至此，我们一个简单的自定义View就到此为止啦-拜了个拜。。。"><a href="#至此，我们一个简单的自定义View就到此为止啦-拜了个拜。。。" class="headerlink" title="至此，我们一个简单的自定义View就到此为止啦!拜了个拜。。。"></a>至此，我们一个简单的自定义View就到此为止啦!拜了个拜。。。</h4>]]></content>
-      <categories>
-        <category>Android</category>
-      </categories>
-      <tags>
-        <tag>自定义View实战</tag>
       </tags>
   </entry>
   <entry>
