@@ -281,6 +281,23 @@
       </tags>
   </entry>
   <entry>
+    <title>ThinkPHP5验证码提示404问题解决</title>
+    <url>/2018/03/14/ThinkPHP5%E6%A1%86%E6%9E%B6%E9%AA%8C%E8%AF%81%E7%A0%81404/</url>
+    <content><![CDATA[<p>最近在学习php，用的是ThinkPHP的框架，学习的时候碰到一个验证码刷新的时候的404问题，困扰了我很久始终没有解决，最终在php中文网的ThinkPHP5的学习视频课程中的讨论区找到解决办法。<br>首先看一波图片（出现的现象及报错图片）：</p>
+<span id="more"></span>
+<p><img src="/images/TP5%E9%AA%8C%E8%AF%81%E7%A0%81404%E9%97%AE%E9%A2%98%E5%B1%95%E7%A4%BA.webp" alt="正常情况"><br>（这里可以看到验证码正常显示）</p>
+<p><img src="/images/TP5%E9%AA%8C%E8%AF%81%E7%A0%81404%E9%97%AE%E9%A2%98%E5%B1%95%E7%A4%BA2.webp" alt="出现404问题了"><br>（点击看不清换一张图片就没了）  </p>
+<p><img src="/images/TP5%E9%AA%8C%E8%AF%81%E7%A0%81404%E9%97%AE%E9%A2%98%E6%8E%A7%E5%88%B6%E5%8F%B0log%E8%BE%93%E5%87%BA.webp" alt="控制台出现报错"><br>（控制台出现报错，404）</p>
+<p>这时候我的验证码刷新代码是这样的：<br><img src="/images/TP5%E9%AA%8C%E8%AF%81%E7%A0%81404%E9%97%AE%E9%A2%98%E4%BB%A3%E7%A0%811.webp" alt="原代码"><br>查到的解决办法，将代码改成如下图这样：<br><img src="/images/TP5%E9%AA%8C%E8%AF%81%E7%A0%81404%E9%97%AE%E9%A2%98%E4%BB%A3%E7%A0%812.webp" alt="解决问题的第一种办法"><br><img src="/images/TP5%E9%AA%8C%E8%AF%81%E7%A0%81404%E9%97%AE%E9%A2%98%E4%BB%A3%E7%A0%813.webp" alt="解决问题的第二种办法"><br>还有人说可以修改php.ini文件，但是php我也是刚学习不久，所以没去深究，反正问题是解决了的，哈哈。<br>当然解决了是不够的，还要用博客把它记下来才行啊！</p>
+]]></content>
+      <categories>
+        <category>PHP</category>
+      </categories>
+      <tags>
+        <tag>问题解决记录</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>UHD630核显驱动方法及驱动后闪屏严重问题解决记录</title>
     <url>/2018/12/10/UHD630%E9%A9%B1%E5%8A%A8%E5%90%8E%E9%97%AA%E5%B1%8F%E4%B8%A5%E9%87%8D/</url>
     <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>之前我同学在公司申请了一个台式，硬件是由自己挑选，公司购买。于是乎，我和他一起挑选了兼容性较好的黑苹果硬件，前天组装好。然后就在昨天开始安装黑苹果。</p>
@@ -336,23 +353,6 @@
         <tag>显卡驱动</tag>
         <tag>问题解决记录</tag>
         <tag>黑苹果安装</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ThinkPHP5验证码提示404问题解决</title>
-    <url>/2018/03/14/ThinkPHP5%E6%A1%86%E6%9E%B6%E9%AA%8C%E8%AF%81%E7%A0%81404/</url>
-    <content><![CDATA[<p>最近在学习php，用的是ThinkPHP的框架，学习的时候碰到一个验证码刷新的时候的404问题，困扰了我很久始终没有解决，最终在php中文网的ThinkPHP5的学习视频课程中的讨论区找到解决办法。<br>首先看一波图片（出现的现象及报错图片）：</p>
-<span id="more"></span>
-<p><img src="/images/TP5%E9%AA%8C%E8%AF%81%E7%A0%81404%E9%97%AE%E9%A2%98%E5%B1%95%E7%A4%BA.webp" alt="正常情况"><br>（这里可以看到验证码正常显示）</p>
-<p><img src="/images/TP5%E9%AA%8C%E8%AF%81%E7%A0%81404%E9%97%AE%E9%A2%98%E5%B1%95%E7%A4%BA2.webp" alt="出现404问题了"><br>（点击看不清换一张图片就没了）  </p>
-<p><img src="/images/TP5%E9%AA%8C%E8%AF%81%E7%A0%81404%E9%97%AE%E9%A2%98%E6%8E%A7%E5%88%B6%E5%8F%B0log%E8%BE%93%E5%87%BA.webp" alt="控制台出现报错"><br>（控制台出现报错，404）</p>
-<p>这时候我的验证码刷新代码是这样的：<br><img src="/images/TP5%E9%AA%8C%E8%AF%81%E7%A0%81404%E9%97%AE%E9%A2%98%E4%BB%A3%E7%A0%811.webp" alt="原代码"><br>查到的解决办法，将代码改成如下图这样：<br><img src="/images/TP5%E9%AA%8C%E8%AF%81%E7%A0%81404%E9%97%AE%E9%A2%98%E4%BB%A3%E7%A0%812.webp" alt="解决问题的第一种办法"><br><img src="/images/TP5%E9%AA%8C%E8%AF%81%E7%A0%81404%E9%97%AE%E9%A2%98%E4%BB%A3%E7%A0%813.webp" alt="解决问题的第二种办法"><br>还有人说可以修改php.ini文件，但是php我也是刚学习不久，所以没去深究，反正问题是解决了的，哈哈。<br>当然解决了是不够的，还要用博客把它记下来才行啊！</p>
-]]></content>
-      <categories>
-        <category>PHP</category>
-      </categories>
-      <tags>
-        <tag>问题解决记录</tag>
       </tags>
   </entry>
   <entry>
@@ -486,29 +486,52 @@
       </tags>
   </entry>
   <entry>
-    <title>php出现Noinput file specified问题解决</title>
-    <url>/2018/03/14/php%E5%87%BA%E7%8E%B0Noinput%20file%20specified%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</url>
-    <content><![CDATA[<p>学PHP学着学着又出问题了，这不，又过来记录记录。<br>这次出现的问题叫做php出现Noinput file specified，大概问题我觉得是因为文件找不到。<br>出现的起因是这样的，我做了一个后台首页判断，看看你是否登录，如果没有登录的话就要跳转到登录页面，于是它的跳转地址是这个：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http:&#x2F;&#x2F;www.cy.com&#x2F;index&#x2F;user&#x2F;login.html</span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<p>于是乎，页面就直接出现Noinput file specified这一串字符串，我看了一眼地址，原因很简单，我没有index.php在里面，如果输入下面的地址访问就是没问题的：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http:&#x2F;&#x2F;www.cy.com&#x2F;index.php&#x2F;index&#x2F;user&#x2F;login.html</span><br></pre></td></tr></table></figure>
-<p>可是总不能在用户未登录的时候跳转到登录页面又要用户自己输入index.php吧，况且用户还不一定知道要这么改，于是一番搜索，找到解决办法。我用的服务器是Apache的，解决办法就是打开ThinkPHP框架中的public目录（我用的是ThinkPHP框架），里面有个文件是 <strong>.htaccess</strong> ，我们把它打开，它现在的内容是这样的：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;IfModule mod_rewrite.c&gt;</span><br><span class="line">  Options +FollowSymlinks -Multiviews</span><br><span class="line">  RewriteEngine On</span><br><span class="line">  RewriteCond %&#123;REQUEST_FILENAME&#125; !-d</span><br><span class="line">  RewriteCond %&#123;REQUEST_FILENAME&#125; !-f</span><br><span class="line">  RewriteRule ^(.*)$ index.php&#x2F;$1 [QSA,PT,L]</span><br><span class="line">&lt;&#x2F;IfModule&gt;</span><br></pre></td></tr></table></figure>
-<p>打开之后我们要做的很简单，看到那个index.php这串字符没？我们在index.php后面加上一个 <strong>?</strong> 就OK了，改完之后的代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;IfModule mod_rewrite.c&gt;</span><br><span class="line">  Options +FollowSymlinks -Multiviews</span><br><span class="line">  RewriteEngine On</span><br><span class="line">  RewriteCond %&#123;REQUEST_FILENAME&#125; !-d</span><br><span class="line">  RewriteCond %&#123;REQUEST_FILENAME&#125; !-f</span><br><span class="line">  RewriteRule ^(.*)$ index.php?&#x2F;$1 [QSA,PT,L]</span><br><span class="line">&lt;&#x2F;IfModule&gt;</span><br></pre></td></tr></table></figure>
-<p>接着我重新访问一下我的首页，正常跳转到登录界面了，激动！！！又增加了点用户体验！！！</p>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>上面的办法只对Apache服务器有效，其他修改办法参照下文：  </p>
-<h3 id="一-IIS-Noinput-file-specified"><a href="#一-IIS-Noinput-file-specified" class="headerlink" title="(一)IIS Noinput file specified"></a>(一)IIS Noinput file specified</h3><p><strong>方法一：</strong> 改PHP.ini中的doc_root行，打开ini文件注释掉此行，然后重启IIS<br><strong>方法二：</strong> 请修改php.ini，找到 <strong>; cgi.force_redirect = 1</strong> 去掉前面分号，把后面的1改为0即<br><strong>cgi.force_redirect = 0</strong></p>
-<h3 id="二-nginx配置遭遇No-inputfile-specified"><a href="#二-nginx配置遭遇No-inputfile-specified" class="headerlink" title="(二)nginx配置遭遇No inputfile specified"></a>(二)nginx配置遭遇No inputfile specified</h3><p><strong>方法一：</strong> php.ini(/etc/php5/cgi/php.ini)的配置中这两项<br><strong>cgi.fix_pathinfo=1</strong> (这个是自己添加的)<br><strong>doc_root=</strong><br><strong>方法二：</strong> nginx配置文件/etc/nginx/sites-available/default中注意以下部分  </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location ~ .php$ &#123;</span><br><span class="line">fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">fastcgi_index index.php;</span><br><span class="line">fastcgi_param SCRIPT_FILENAME &#x2F;var&#x2F;www&#x2F;nginx-default$fastcgi_script_name;</span><br><span class="line">include fastcgi_params;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面的各项参数请按照你的项目实际情况配置</p>
+    <title>livedata-bus</title>
+    <url>/2021/04/13/livedata-bus/</url>
+    <content><![CDATA[<p>LiveDataBus已经是一个老生常谈的话题了，但是我们今天搞点不一样(噱)的(头)。废话不多说，先上地址：<a href="https://github.com/cyixlq/LiveEventBus">https://github.com/cyixlq/LiveEventBus</a></p>
+<p>先来说一说LiveDataBus的一些老生常谈的优势：</p>
+<ul>
+<li>不需要像EventBus那样注册反注册，可以自动注册解注册，避免了忘记反注册导致内存泄漏</li>
+<li>事件发送不是通过反射执行，但现在EventBus通过APT也可以实现</li>
+<li>其它，还有吗？我暂时没想到</li>
+</ul>
+<p>接着，我们看一看将LiveData打造成一款事件总线类型的框架首先要克服的一些问题：</p>
+<ul>
+<li>在组件从非活跃状态变成活跃状态时，会将observe之前的value发送过来。（这个问题怎么说呢，你说它是问题，但是有的业务场景确实需要(sticky模式，但是并不需要每次从onStop之后恢复过来都发送一次)，你说他不是问题，但是大部分场景我们确实只需要在订阅事件之后的数据。</li>
+<li>LiveData数据丢失的问题。LiveData怎么判断一个组件是否在活跃状态？可以通过代码<code>mOwner.getLifecycle().getCurrentState().isAtLeast(STARTED)</code>知道，至少是STARTED状态的才是活跃状态。那么执行过哪些生命周期回调才算是STARTED状态呢？我们通过查看LifecycleRegistry类的getStateAfter方法可以知道，在onStart和onPause之间均是STARTED状态（这里为了我的排版我就不贴代码了，感兴趣的可以去自行查看）。因此，组件在onCreate/onStop的时候是收不到数据的，更不用说onDestroy。😁但是其实这也不算问题，因为LiveData认为看不到界面的时候更新界面是毫无意义的，并且LiveData本身就不是设计用来传送事件的，而是用来更新UI的，你要强行把它打造成事件总线框架那<code>谷歌</code>能有什么办法。<code>谷歌内心OS：你们这不是强人锁男吗？</code>。另外postValue的时候通过阅读代码逻辑可以发现(如果你不想读，那么你可以直接看postValue的注释文档)，如果你在短时间内多次postValue，那么最终只有最新的value才能发送出去。</li>
+<li>LiveData的粘性事件有点不合逻辑。其实这也不算…（打住，别说了，我知道了，这也不算问题）</li>
+</ul>
+<p>接着我们来看一看以往我们为了将LiveData打造成一款简易LiveDataBus是怎么将这些问题克服的，上个链接，先看看简易版LiveDataBus<a href="https://tech.meituan.com/2018/07/26/android-livedatabus.html">点我前往</a>：</p>
+<ul>
+<li>在observe LiveData的时候反射修改对应ObserverWrapper中mLastVersion的值，让它和LiveData中的mVersion保持一致，这样在生命周期状态发生改变分发value的时候，不会因为订阅时的版本小于LiveData中的版本而被认为其数据需要更新。（那有的同学就会说了：啊啊啊~，那你用了反射会不会影响我做的响应时间要6，7s的APP的运行速度啊，毕竟大家都说反射性能都很低的！| 别急，我们接着往下看）</li>
+<li>其它问题的解决与拓展相应实现起来就有点棘手，因为我们无法修改LiveData的源码，所以才有了我们今天的文章。我反手就是抄代码，一个Ctrl + c和一个Ctrl + v。谷歌，你的代码就是我的了！嘿嘿，想不到吧！</li>
+</ul>
+<p>好了，现在是开始我们大展(抄)身(代)手(码)的时候了。LiveData其实最关键的就两个类，这更给了我们大展(抄)身(代)手(码)一个好机会。这两个类分别是：LiveData和SafeIterableMap。</p>
+<p>抄LiveData无可厚非，可是这个SafeIterableMap是个什么东西？这个是谷歌团队使用链表的数据结构仿的一个Map，可以在遍历的时候安全地移除删除元素，这个LiveData所有的订阅者都是存在这个里面。有感兴趣的小伙伴可以<a href="https://blog.csdn.net/c6E5UlI1N/article/details/79608996">点我</a>前往查看它的一个原理实现解析。</p>
+<p>那又有同学要问了，为啥这个我还要抄呢？我一个import不行吗？也不是不行，但是这个类添加了一个<code>@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)</code>的注解，这个注解啥意思<a href="https://developer.android.google.cn/reference/androidx/annotation/RestrictTo.Scope?hl=en">点我前往查看</a>。大意就是限制这个类只能在包名前缀相同的类中使用。如果你想强制使用也可以，直接import使用虽然会代码飘红，但是能编译通过，强迫症受不了还可以在对应的成员变量上或者方法上加上这个注解<code>@SuppressLint(&quot;RestrictedApi&quot;)</code>。但是这样做不累吗？我一个Ctrl+c和一个Ctrl+v然后修改一下把这个限制解除不香吗？另外指不定谷歌日后会对这个注解进行一些其他限制，比如直接崩溃来限制调用，又比如无法通过编译。</p>
+<p>至此，我们可以开始定制我们的LiveDataBus，但是为了把谷歌的这个东西彻底变成我们的，索性我们名字也改一个，LiveData改成LiveEvent，打造的事件Bus我们就叫LiveEventBus。<code>ps:确实也不该叫LiveData了，因为我们定制化不少了</code></p>
+<ol>
+<li>首先将SafeIterableMap的源码拷贝到项目中，去除<code>@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)</code>，不去也可以，因为LiveEvent类到时候和这个类包名前缀肯定是一样的，但是为了方便对外使用，去掉不香吗？</li>
+<li>将LiveData源码拷贝到项目中，并且更名为LiveEvent，修改构造方法名。发现还有ArchTaskExecutor和GenericLifecycleObserver两个类同样加了限制注解，没关系，将相应代码直接改成这个类中对应的代码： <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 1.源代码</span><br><span class="line">   class LifecycleBoundObserver extends ObserverWrapper implements GenericLifecycleObserver</span><br><span class="line">   &#x2F;&#x2F; 1.发现GenericLifecycleObserver中啥也没有，直接继承的LifecycleEventObserver，那我们直接改就好了</span><br><span class="line">   class LifecycleBoundObserver extends ObserverWrapper implements LifecycleEventObserver</span><br><span class="line">   </span><br><span class="line">   &#x2F;&#x2F; 2.源代码</span><br><span class="line">   if (!ArchTaskExecutor.getInstance().isMainThread()) </span><br><span class="line">   &#x2F;&#x2F; 2.直接看对应方法源码，发现由DefaultTaskExecutor类实现，直接用其实现进行替换</span><br><span class="line">   if (Looper.getMainLooper().getThread() !&#x3D; Thread.currentThread())</span><br></pre></td></tr></table></figure></li>
+<li>改造postValue方法，解决同一时间多次postValue只会发送最新的值，同时将修饰改成public。通过源码发现postValue通过Handler将任务post到主线程最终调用setValue，我们改造就是每一次执行postValue就判断当前调用线程是不是主线程，是主线程就可以直接调用setValue，否则使用Handler post到主线程执行setValue。同时去除没用的变量：<code>mDataLock</code>，<code>mPendingData</code>，<code>mPostValueRunnable</code>。再添加一个成员变量Handler，用于切换到主线程。为了将改(盗)造(版)进行到底，同时为了更符合语义，我们可以将postValue方法改名为postEvent： <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 用于切换到主线程的Handler</span><br><span class="line">private final Handler mHandler &#x3D; new Handler(Looper.getMainLooper());</span><br><span class="line"></span><br><span class="line">public void postEvent(T value) &#123;</span><br><span class="line">    &#x2F;&#x2F; 如果在主线程</span><br><span class="line">    if (Looper.getMainLooper().getThread() &#x3D;&#x3D; Thread.currentThread())</span><br><span class="line">        setValue(value);</span><br><span class="line">    else</span><br><span class="line">        mHandler.post(() -&gt; setValue(value));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>改造setValue方法，解决setValue只在onStart和onPause生命周期之间才能接收到value的问题。只需将上文提到的约束扩大到CREATED范围就行（onCreate和onStop之间），改成这个范围之后也能顺带解决Activity在onStop之后恢复又会重新发送一次事件的问题。修改LifecycleBoundObserver类中shouldBeActive方法，代码如下。同时外部其实用不到setValue方法，都可以直接通过postEvent来间接调用，所以可以修饰成private。 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Override</span><br><span class="line">boolean shouldBeActive() &#123;</span><br><span class="line">    return mOwner.getLifecycle().getCurrentState().isAtLeast(CREATED);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>为了解决组件从非活跃状态切换到活跃状态会将observe之前的value发送过来，同时又为了拓展需要这种需求的情况，那我们直接打造一个可以控制是否需要sticky的模式吧。我们在ObserverWrapper中添加isStickyMode成员变量，同时为其添加构造方法，代码如下： <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">final boolean isStickyMode;</span><br><span class="line"></span><br><span class="line">ObserverWrapper(Observer&lt;? super T&gt; observer, final boolean isStickyMode) &#123;</span><br><span class="line">    mObserver &#x3D; observer;</span><br><span class="line">    this.isStickyMode &#x3D; isStickyMode;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 其它调用了ObserverWrapper构造方法的地方进行同理改造</span><br><span class="line">AlwaysActiveObserver(Observer&lt;? super T&gt; observer, boolean isStickyMode) &#123;</span><br><span class="line">    super(observer, isStickyMode);</span><br><span class="line">&#125;</span><br><span class="line">LifecycleBoundObserver(@NonNull LifecycleOwner owner, Observer&lt;? super T&gt; observer, boolean isStickyMode) &#123;</span><br><span class="line">    super(observer, isStickyMode);</span><br><span class="line">    mOwner &#x3D; owner;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ 另外还需要添加一个observeSticky方法代表在以sticky模式观察，observe方法也需要改造，代表不以sticky模式观察。observeForever同理也进行改造。代码如下： <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@MainThread</span><br><span class="line">public void observe(@NonNull LifecycleOwner owner, @NonNull Observer&lt;? super T&gt; observer) &#123;</span><br><span class="line">    assertMainThread(&quot;observe&quot;);</span><br><span class="line">    realObserve(owner, observer, false);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@MainThread</span><br><span class="line">public void observeSticky(@NonNull LifecycleOwner owner, @NonNull Observer&lt;? super T&gt; observer) &#123;</span><br><span class="line">    assertMainThread(&quot;observeSticky&quot;);</span><br><span class="line">    realObserve(owner, observer, true);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@MainThread</span><br><span class="line">private void realObserve(@NonNull LifecycleOwner owner, @NonNull Observer&lt;? super T&gt; observer, boolean isStickyMode) &#123;</span><br><span class="line">    if (owner.getLifecycle().getCurrentState() &#x3D;&#x3D; DESTROYED) &#123;</span><br><span class="line">        &#x2F;&#x2F; ignore</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    LifecycleBoundObserver wrapper &#x3D; new LifecycleBoundObserver(owner, observer, isStickyMode);</span><br><span class="line">    ObserverWrapper existing &#x3D; mObservers.putIfAbsent(observer, wrapper);</span><br><span class="line">    if (existing !&#x3D; null &amp;&amp; !existing.isAttachedTo(owner)) &#123;</span><br><span class="line">        throw new IllegalArgumentException(&quot;Cannot add the same observer&quot;</span><br><span class="line">                + &quot; with different lifecycles&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    if (existing !&#x3D; null) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    owner.getLifecycle().addObserver(wrapper);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> @MainThread</span><br><span class="line">public void observeForever(@NonNull Observer&lt;? super T&gt; observer) &#123;</span><br><span class="line">    assertMainThread(&quot;observeForever&quot;);</span><br><span class="line">    realObserveForever(observer, false);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@MainThread</span><br><span class="line">public void observeForeverSticky(@NonNull Observer&lt;? super T&gt; observer) &#123;</span><br><span class="line">    assertMainThread(&quot;observeForeverSticky&quot;);</span><br><span class="line">    realObserveForever(observer, true);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@MainThread</span><br><span class="line">private void realObserveForever(@NonNull Observer&lt;? super T&gt; observer, boolean isStickyMode) &#123;</span><br><span class="line">    AlwaysActiveObserver wrapper &#x3D; new AlwaysActiveObserver(observer, isStickyMode);</span><br><span class="line">    ObserverWrapper existing &#x3D; mObservers.putIfAbsent(observer, wrapper);</span><br><span class="line">    if (existing !&#x3D; null &amp;&amp; existing instanceof LiveEvent.LifecycleBoundObserver) &#123;</span><br><span class="line">        throw new IllegalArgumentException(&quot;Cannot add the same observer&quot;</span><br><span class="line">                + &quot; with different lifecycles&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    if (existing !&#x3D; null) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    wrapper.activeStateChanged(true);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>有了isStickyMode这个变量之后，version的对比显得就不必要了，之前LiveData原有逻辑是组件从非活跃变为活跃状态就会调用dispatchingValue方法，而dispatchingValue方法又会调用considerNotify方法，considerNotify方法中对比Observer和LiveData中的版本，如果Observer中的mLastVersion小于LiveData中的mVersion说明Observer没有接收到最新的数据，那么便进行一次分发。现在我们有了isStickyMode变量控制，加上活跃状态的范围提升到onCreate到onStop之间(这个范围之外的生命周期只剩onDestroy，但是到了这个状态LiveData会自动将这个Observer给移除)，版本的对比就起不了什么作用，可以将相关变量与方法精简掉(还能防止发送事件次数过多，mVersion超过了int所能容纳的最大值导致的异常，虽然你的App也不可能有发送了20多亿次事件用户还没把你App关掉的情况)。considerNotify方法中通过判断版本是否忽略分发的代码逻辑可以改成value是否被赋值过来判断是否忽略分发，代码如下： <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">if (mData &#x3D;&#x3D; NOT_SET) &#123;</span><br><span class="line">    &#x2F;&#x2F; 从没发送过事件直接忽视分发事件</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>最后我们编写一个工具类，将使用方法封装起来： <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class LiveEventBus &#123;</span><br><span class="line"></span><br><span class="line">    private static final class SingleHolder &#123;</span><br><span class="line">        private static final LiveEventBus INSTANCE &#x3D; new LiveEventBus();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static LiveEventBus get() &#123;</span><br><span class="line">        return SingleHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private final ConcurrentHashMap&lt;Object, LiveEvent&lt;Object&gt;&gt; mEventMap;</span><br><span class="line"></span><br><span class="line">    private LiveEventBus() &#123;</span><br><span class="line">        mEventMap &#x3D; new ConcurrentHashMap&lt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public &lt;T&gt; LiveEvent&lt;T&gt; with(@NonNull final String key, @NonNull final Class&lt;T&gt; clazz) &#123;</span><br><span class="line">        return realWith(key, clazz);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public &lt;T&gt; LiveEvent&lt;T&gt; with(@NonNull final Class&lt;T&gt; clazz) &#123;</span><br><span class="line">        return realWith(null, clazz);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">    private &lt;T&gt; LiveEvent&lt;T&gt; realWith(final String key, final Class&lt;T&gt; clazz) &#123;</span><br><span class="line">        final Object objectKey;</span><br><span class="line">        if (key !&#x3D; null) &#123;</span><br><span class="line">            objectKey &#x3D; key;</span><br><span class="line">        &#125; else if (clazz !&#x3D; null) &#123;</span><br><span class="line">            objectKey &#x3D; clazz;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            throw new IllegalArgumentException(&quot;key and clazz, one of which must not be null&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        LiveEvent&lt;Object&gt; result &#x3D; mEventMap.get(objectKey);</span><br><span class="line">        if (result !&#x3D; null) return (LiveEvent&lt;T&gt;) result;</span><br><span class="line">        synchronized (mEventMap) &#123;</span><br><span class="line">            result &#x3D; mEventMap.get(objectKey);</span><br><span class="line">            if (result &#x3D;&#x3D; null) &#123;</span><br><span class="line">                result &#x3D; new LiveEvent&lt;&gt;();</span><br><span class="line">                mEventMap.put(objectKey, result);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return (LiveEvent&lt;T&gt;) result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>最后，我们就用这几百行代码打造了一款非常牛(噱)逼(头)的事件总线框架，没有反射，不会影响你响应时间需要6，7s的APP的运行速度。你甚至还可以删除LiveEvent一些不需要的对外方法以及不再使用到的成员变量。为了进一步压缩代码行数，你甚至可以把注释也给删除了！我就这么干了，最后的LiveEvent只有两百多行代码。</p>
+<p>当然，这还没完，我们还可以进一步优化一下，比如我们每次创建LiveEvent对象就会有一个Handler也被随之创建，我们完全可以共用一个Handler来将任务post到主线程，然后还有线程的判断这些方法我们也可以提取到一个公共类中，那么这个类我们不如叫它DefaultTaskExecutor吧！咦，这么巧，androidx包里面就有这个诶，那我们直接把它复制过来当工具类用吧。后面还有一个继承的父类也有限制注解？算了，不要它也不是不能用，那直接去了吧。多余的override注解也给去了，里面还有个用于切换到io线程的方法，emmm留着吧，万一以后要呢，只是线程名给它改一个我们自己想定义的名字(将盗版进行到底)…为了使用方便，把它改成单例吧，再把LiveEvent类中可以用到这个类方法的地方替换一下，完美收官！</p>
+<p>最后讲讲LiveEventBus用法，那是相当简单，参照<a href="https://github.com/cyixlq/LiveEventBus/blob/main/app/src/main/java/top/cyixlq/sample/MainActivity.kt">MainActivity</a>和<a href="https://github.com/cyixlq/LiveEventBus/blob/main/app/src/main/java/top/cyixlq/sample/SecondActivity.kt">SecondActivity</a></p>
+<p>声明：本文可能会随着项目代码的改动而导致更新不及时，请以项目中代码为准！</p>
 ]]></content>
       <categories>
-        <category>PHP</category>
+        <category>Android</category>
       </categories>
       <tags>
-        <tag>问题解决记录</tag>
+        <tag>livedata_bus</tag>
+        <tag>jetpack</tag>
+        <tag>livedata</tag>
       </tags>
   </entry>
   <entry>
@@ -591,6 +614,32 @@
         <tag>vue</tag>
         <tag>Vue实战</tag>
         <tag>购物车</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php出现Noinput file specified问题解决</title>
+    <url>/2018/03/14/php%E5%87%BA%E7%8E%B0Noinput%20file%20specified%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</url>
+    <content><![CDATA[<p>学PHP学着学着又出问题了，这不，又过来记录记录。<br>这次出现的问题叫做php出现Noinput file specified，大概问题我觉得是因为文件找不到。<br>出现的起因是这样的，我做了一个后台首页判断，看看你是否登录，如果没有登录的话就要跳转到登录页面，于是它的跳转地址是这个：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http:&#x2F;&#x2F;www.cy.com&#x2F;index&#x2F;user&#x2F;login.html</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>于是乎，页面就直接出现Noinput file specified这一串字符串，我看了一眼地址，原因很简单，我没有index.php在里面，如果输入下面的地址访问就是没问题的：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http:&#x2F;&#x2F;www.cy.com&#x2F;index.php&#x2F;index&#x2F;user&#x2F;login.html</span><br></pre></td></tr></table></figure>
+<p>可是总不能在用户未登录的时候跳转到登录页面又要用户自己输入index.php吧，况且用户还不一定知道要这么改，于是一番搜索，找到解决办法。我用的服务器是Apache的，解决办法就是打开ThinkPHP框架中的public目录（我用的是ThinkPHP框架），里面有个文件是 <strong>.htaccess</strong> ，我们把它打开，它现在的内容是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;IfModule mod_rewrite.c&gt;</span><br><span class="line">  Options +FollowSymlinks -Multiviews</span><br><span class="line">  RewriteEngine On</span><br><span class="line">  RewriteCond %&#123;REQUEST_FILENAME&#125; !-d</span><br><span class="line">  RewriteCond %&#123;REQUEST_FILENAME&#125; !-f</span><br><span class="line">  RewriteRule ^(.*)$ index.php&#x2F;$1 [QSA,PT,L]</span><br><span class="line">&lt;&#x2F;IfModule&gt;</span><br></pre></td></tr></table></figure>
+<p>打开之后我们要做的很简单，看到那个index.php这串字符没？我们在index.php后面加上一个 <strong>?</strong> 就OK了，改完之后的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;IfModule mod_rewrite.c&gt;</span><br><span class="line">  Options +FollowSymlinks -Multiviews</span><br><span class="line">  RewriteEngine On</span><br><span class="line">  RewriteCond %&#123;REQUEST_FILENAME&#125; !-d</span><br><span class="line">  RewriteCond %&#123;REQUEST_FILENAME&#125; !-f</span><br><span class="line">  RewriteRule ^(.*)$ index.php?&#x2F;$1 [QSA,PT,L]</span><br><span class="line">&lt;&#x2F;IfModule&gt;</span><br></pre></td></tr></table></figure>
+<p>接着我重新访问一下我的首页，正常跳转到登录界面了，激动！！！又增加了点用户体验！！！</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>上面的办法只对Apache服务器有效，其他修改办法参照下文：  </p>
+<h3 id="一-IIS-Noinput-file-specified"><a href="#一-IIS-Noinput-file-specified" class="headerlink" title="(一)IIS Noinput file specified"></a>(一)IIS Noinput file specified</h3><p><strong>方法一：</strong> 改PHP.ini中的doc_root行，打开ini文件注释掉此行，然后重启IIS<br><strong>方法二：</strong> 请修改php.ini，找到 <strong>; cgi.force_redirect = 1</strong> 去掉前面分号，把后面的1改为0即<br><strong>cgi.force_redirect = 0</strong></p>
+<h3 id="二-nginx配置遭遇No-inputfile-specified"><a href="#二-nginx配置遭遇No-inputfile-specified" class="headerlink" title="(二)nginx配置遭遇No inputfile specified"></a>(二)nginx配置遭遇No inputfile specified</h3><p><strong>方法一：</strong> php.ini(/etc/php5/cgi/php.ini)的配置中这两项<br><strong>cgi.fix_pathinfo=1</strong> (这个是自己添加的)<br><strong>doc_root=</strong><br><strong>方法二：</strong> nginx配置文件/etc/nginx/sites-available/default中注意以下部分  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location ~ .php$ &#123;</span><br><span class="line">fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">fastcgi_index index.php;</span><br><span class="line">fastcgi_param SCRIPT_FILENAME &#x2F;var&#x2F;www&#x2F;nginx-default$fastcgi_script_name;</span><br><span class="line">include fastcgi_params;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的各项参数请按照你的项目实际情况配置</p>
+]]></content>
+      <categories>
+        <category>PHP</category>
+      </categories>
+      <tags>
+        <tag>问题解决记录</tag>
       </tags>
   </entry>
   <entry>

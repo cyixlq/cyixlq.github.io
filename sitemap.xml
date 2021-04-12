@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.cyixlq.top/2021/04/13/livedata-bus/</loc>
+    
+    <lastmod>2021-04-12</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://www.cyixlq.top/2018/03/14/ThinkPHP5%E6%A1%86%E6%9E%B6%E9%AA%8C%E8%AF%81%E7%A0%81404/</loc>
     
     <lastmod>2021-04-12</lastmod>
@@ -86,6 +93,13 @@
   </url>
   
   <url>
+    <loc>https://www.cyixlq.top/about/index.html</loc>
+    
+    <lastmod>2021-01-15</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://www.cyixlq.top/book/index.html</loc>
     
     <lastmod>2021-01-15</lastmod>
@@ -94,13 +108,6 @@
   
   <url>
     <loc>https://www.cyixlq.top/categories/index.html</loc>
-    
-    <lastmod>2021-01-15</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.cyixlq.top/about/index.html</loc>
     
     <lastmod>2021-01-15</lastmod>
     
@@ -222,6 +229,27 @@
   
   <url>
     <loc>https://www.cyixlq.top/tags/vue%E5%AE%9E%E6%88%98/</loc>
+    <lastmod>2021-04-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.cyixlq.top/tags/livedata-bus/</loc>
+    <lastmod>2021-04-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.cyixlq.top/tags/jetpack/</loc>
+    <lastmod>2021-04-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.cyixlq.top/tags/livedata/</loc>
     <lastmod>2021-04-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
