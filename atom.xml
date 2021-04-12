@@ -48,6 +48,28 @@
   </entry>
   
   <entry>
+    <title>一个小巧的日期选择器</title>
+    <link href="https://www.cyixlq.top/2019/04/25/datepicker-dialog/"/>
+    <id>https://www.cyixlq.top/2019/04/25/datepicker-dialog/</id>
+    <published>2019-04-24T16:16:55.000Z</published>
+    <updated>2021-04-12T08:24:18.603Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>不知道你和我是否有一样有过这样的想法。身在外包工作，很多时候，只是一个小小的需求，却要写一个差不多精致的UI，但是这个UI耗费的时间却需要很久。但是对于你来说，只想快速完成需求，UI只是一个吃力不讨好的事情，为此你疲于应对，然后去网上找别人写好的，但是却偏偏没有你想要的。更有甚至为了一个小小的UI引入一个体积很大的依赖库。</p><p>是的，我有过这样的想法，前不久我接到了一个新功能开发，里面有一个时间选择弹框，可以选择开始时间和结束时间，效果就相当于下图这样：<br><img src="/images/%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%B7%A7%E7%9A%84%E6%97%A5%E6%9C%9F%E9%80%89%E6%8B%A9%E5%99%A8%E6%95%88%E6%9E%9C%E5%9B%BE.gif" alt="效果图"></p><span id="more"></span><ul><li>效果文字描述：<ul><li>可以选择开始那天和结束那天不是同一天</li><li>也可以单选一天，即开始时间和结束时间是同一天</li><li>点击已经点选的开始或者结束那天可以取消选择，然后下一次点击又可以变成一个新的时间段</li></ul></li></ul><p>一开始我并不想做这么个控件，毕竟时间有限，一直在赶需求，只是简单地做了两个系统自身的DatePickerDialog弹出来，一个是让对方选择开始时间，选择后消失弹出第二个选择结束时间。后来对方不满意，在其它需求做完了的情况下开始啃这个了。于是乎，在今天有空的情况下，我单独将这个控件提取出来，并且做了一定的封装和可自定义。于是就有了现在这篇文章。</p><h3 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h3><p><a href="https://github.com/cyixlq/Cwidget">https://github.com/cyixlq/Cwidget</a></p><h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>直接使用如图中样式的话：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">DatePickerDialogFragment mDatePickerDialog = <span class="keyword">new</span> DatePickerDialogFragment();</span><br><span class="line"><span class="keyword">final</span> SelectRule rule = <span class="keyword">new</span> SelectRule();</span><br><span class="line">rule.setCanSelectAfterToday(<span class="keyword">false</span>); <span class="comment">// 设置是否可以选择超过今天的时间</span></span><br><span class="line">rule.setEnable(<span class="keyword">true</span>); <span class="comment">// 设置是否开启时间选择功能</span></span><br><span class="line">rule.setMaxDayCount(<span class="number">30</span>); <span class="comment">// 设置最多可以选择多少天</span></span><br><span class="line">mDatePickerDialog.setSelectRule(rule); <span class="comment">// 如果不设置rule默认不能超过今天，开启时间选择，最多天数不限制</span></span><br><span class="line">mDatePickerDialog.setOnTimeSelectListener((start, end) -&gt; &#123;</span><br><span class="line">    <span class="keyword">final</span> String msg = <span class="string">&quot;开始时间：&quot;</span> + start.toString() + <span class="string">&quot;\n&quot;</span> + <span class="string">&quot;结束时间：&quot;</span> + end.toString();</span><br><span class="line">        Toast.makeText(<span class="keyword">this</span>, msg, Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;);</span><br><span class="line">mDatePickerDialog.show(getSupportFragmentManager());</span><br></pre></td></tr></table></figure><p>如果要自定义Item的布局样式，请参照<a href="https://github.com/cyixlq/Cwidget/blob/master/library/src/main/java/top/cyixlq/widget/calendar/SimpleCalendarAdapter.java">SimpleCalendarAdapter</a></p><h3 id="THE-END"><a href="#THE-END" class="headerlink" title="THE END"></a>THE END</h3>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;不知道你和我是否有一样有过这样的想法。身在外包工作，很多时候，只是一个小小的需求，却要写一个差不多精致的UI，但是这个UI耗费的时间却需要很久。但是对于你来说，只想快速完成需求，UI只是一个吃力不讨好的事情，为此你疲于应对，然后去网上找别人写好的，但是却偏偏没有你想要的。更有甚至为了一个小小的UI引入一个体积很大的依赖库。&lt;/p&gt;
+&lt;p&gt;是的，我有过这样的想法，前不久我接到了一个新功能开发，里面有一个时间选择弹框，可以选择开始时间和结束时间，效果就相当于下图这样：&lt;br&gt;&lt;img src=&quot;/images/%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%B7%A7%E7%9A%84%E6%97%A5%E6%9C%9F%E9%80%89%E6%8B%A9%E5%99%A8%E6%95%88%E6%9E%9C%E5%9B%BE.gif&quot; alt=&quot;效果图&quot;&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Android" scheme="https://www.cyixlq.top/categories/Android/"/>
+    
+    
+    <category term="自定义View实战" scheme="https://www.cyixlq.top/tags/%E8%87%AA%E5%AE%9A%E4%B9%89View%E5%AE%9E%E6%88%98/"/>
+    
+  </entry>
+  
+  <entry>
     <title>自定义一个仿拼多多地址选择器</title>
     <link href="https://www.cyixlq.top/2019/04/19/custom-address-picker-like-pinduoduo/"/>
     <id>https://www.cyixlq.top/2019/04/19/custom-address-picker-like-pinduoduo/</id>
